@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TMG Foosball</string>
+    <string name="score_fragment">Foosball Scores</string>
+</resources>
