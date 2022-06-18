@@ -1,6 +1,6 @@
 package com.rosseti.tmgfoosball.di.module
 
-import com.rosseti.tmgfoosball.ui.dialog.MessageDialog
+import com.rosseti.tmgfoosball.ui.dialog.ErrorDialog
 import com.rosseti.tmgfoosball.ui.dialog.ProgressDialog
 import dagger.Module
 import dagger.Provides
@@ -8,7 +8,7 @@ import dagger.Provides
 @Module
 class DialogModule {
     @Provides
-    fun providesErrorDialog(): MessageDialog = MessageDialog()
+    fun providesErrorDialog(): ErrorDialog = ErrorDialog()
 
     @Provides
     fun providesProgressDialog(): ProgressDialog = ProgressDialog()

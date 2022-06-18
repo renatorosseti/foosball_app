@@ -11,9 +11,6 @@ interface Api {
     @GET("/scores")
     fun fetchScores(): Single<List<ScoreModel>>
 
-    @GET(value = "scores/{scoreId}")
-    fun fetchScoreById(@Path("scoreId") scoreId: Int): Single<ScoreModel>
-
     @FormUrlEncoded
     @PUT(value = "scores/{scoreId}")
     fun updateScore(

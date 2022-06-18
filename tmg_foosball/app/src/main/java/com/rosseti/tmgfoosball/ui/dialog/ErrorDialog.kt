@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import com.rosseti.tmgfoosball.R
 
-class MessageDialog {
+class ErrorDialog {
     private lateinit var errorDialog: AlertDialog
     private lateinit var builder: AlertDialog.Builder
 

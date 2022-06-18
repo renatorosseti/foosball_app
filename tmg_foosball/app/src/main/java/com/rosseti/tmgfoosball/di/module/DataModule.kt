@@ -10,6 +10,5 @@ import dagger.Provides
 class DataModule {
 
     @Provides
-    fun provideScoreRepository(api: Api): ScoreRepository
-            = ScoreRepositoryImpl(api)
+    fun provideScoreRepository(api: Api): ScoreRepository = ScoreRepositoryImpl(api)
 }

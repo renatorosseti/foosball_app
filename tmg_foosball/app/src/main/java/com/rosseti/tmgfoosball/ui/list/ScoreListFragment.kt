@@ -80,6 +80,7 @@ class ScoreListFragment : BaseFragment() {
                     }
                 }
                 is ScoreListViewState.ShowNetworkError -> {
+                    progressDialog.hide()
                     dialog.show(
                         context = requireContext(),
                         message = getString(R.string.error_internet)
