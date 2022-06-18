@@ -3,12 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/EventsFragment">
+    app:startDestination="@id/ScoreListFragment">
 
     <fragment
-        android:id="@+id/EventsFragment"
-        android:name="com.rosseti.tmgfoosball.scores.ScoreFragment"
+        android:id="@+id/ScoreListFragment"
+        android:name="com.rosseti.tmgfoosball.scores.ScoreListFragment"
         android:label="@string/score_fragment"
         tools:layout="@layout/fragment_score_list">
+        <action
+            android:id="@+id/action_ScoreListFragment_to_scoreDetailsFragment"
+            app:destination="@id/scoreDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/scoreDetailsFragment"
+        android:name="com.rosseti.tmgfoosball.scores.ScoreDetailsFragment"
+        android:label="ScoreDetailsFragment"
+        tools:layout="@layout/fragment_score_details"/>
 </navigation>

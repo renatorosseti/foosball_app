@@ -13,21 +13,21 @@ import javax.inject.Inject
 
 class ScoreViewModel @Inject constructor(private val getScoresUseCase: GetScoresUseCase) : BaseViewModel() {
 
-    val response = MutableLiveData<ScoreViewState>()
+    val response = MutableLiveData<ScoreListViewState>()
 
     init {
 
     }
 
     fun getScoreList(isRefresh: Boolean = true) {
-        response.postValue(ScoreViewState.ShowLoadingState)
+        response.postValue(ScoreListViewState.ShowLoadingState)
         val result = getScoresUseCase()
             .cachedIn(viewModelScope)
         result.subscribeBy(onNext = {
-            response.postValue(ScoreViewState.ShowContentFeed(it))
+            response.postValue(ScoreListViewState.ShowContentFeed(it))
             Log.i("ScoreViewModel", "Response $it.")
         }, onError = { e ->
-            response.postValue(ScoreViewState.ShowNetworkError(404, NetworkException(e)))
+            response.postValue(ScoreListViewState.ShowNetworkError(404, NetworkException(e)))
         }).addTo(compositeDisposable)
     }
 }

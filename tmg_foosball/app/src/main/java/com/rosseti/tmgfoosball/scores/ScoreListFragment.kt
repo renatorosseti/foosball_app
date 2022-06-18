@@ -6,16 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.ScoreViewAdapter
 import com.rosseti.tmgfoosball.databinding.FragmentScoreListBinding
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class ScoreFragment : Fragment() {
+class ScoreListFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -45,6 +47,10 @@ class ScoreFragment : Fragment() {
     private fun setupAdapter() {
         adapter = ScoreViewAdapter {
             Log.i("ObserveActions", "Item: $it")
+            findNavController().navigate(
+                R.id.action_ScoreListFragment_to_scoreDetailsFragment,
+                bundleOf("score" to it)
+            )
         }
         binding.list.adapter = adapter
 
@@ -52,8 +58,8 @@ class ScoreFragment : Fragment() {
 
     private fun observeActions() {
         viewModel.response.observe(viewLifecycleOwner, Observer {
-            when(it) {
-                is ScoreViewState.ShowContentFeed -> {
+            when (it) {
+                is ScoreListViewState.ShowContentFeed -> {
                     Log.i("ObserveActions", "Scores: ${it.scores}")
                     adapter.submitData(lifecycle, it.scores)
 

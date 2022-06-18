@@ -5,17 +5,13 @@ import com.rosseti.domain.entity.ScoreEntity
 import com.rosseti.domain.repository.ScoreRepository
 import io.reactivex.Single
 
-class CreateScoreUseCase(
+class GetScoreDetailsUseCase(
     private val schedulers: SchedulerProvider,
     private val scoreRepository: ScoreRepository
 ) {
 
-    operator fun invoke(
-        name: String,
-        matches: String,
-        scores: String
-    ): Single<ScoreEntity> =
-        scoreRepository.createScore(name, matches, scores)
+    operator fun invoke(scoreId: String): Single<ScoreEntity> =
+        scoreRepository.fetchScoreById(scoreId)
             .subscribeOn(schedulers.subscribeOn)
             .observeOn(schedulers.observeOn)
 }

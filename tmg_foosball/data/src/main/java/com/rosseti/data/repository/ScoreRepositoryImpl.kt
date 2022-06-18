@@ -9,20 +9,46 @@ import com.rosseti.data.paging.ScoreDataSource
 import com.rosseti.domain.entity.ScoreEntity
 import com.rosseti.domain.repository.ScoreRepository
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 class ScoreRepositoryImpl(private val api: Api) : ScoreRepository {
     override fun fetchScores(): Flowable<PagingData<ScoreEntity>> {
-        val pager =  Pager(
+        val pager = Pager(
             config = PagingConfig(
                 pageSize = 10,
                 enablePlaceholders = true,
                 maxSize = 30,
                 prefetchDistance = 5,
-                initialLoadSize = 20)
-        ){
+                initialLoadSize = 20
+            )
+        ) {
             ScoreDataSource(api)
         }.flowable
 
         return pager
     }
+
+    override fun fetchScoreById(scoreId: String): Single<ScoreEntity> =
+        api.fetchScoreById(scoreId).map {
+            ScoreEntity(id = it.id, name = it.name, matches = it.matches, scores = it.scores)
+        }
+
+    override fun updateScore(
+        scoreId: String,
+        name: String,
+        matches: String,
+        scores: String
+    ): Single<ScoreEntity> =
+        api.updateScore(scoreId, name, matches, scores).map {
+            ScoreEntity(id = it.id, name = it.name, matches = it.matches, scores = it.scores)
+        }
+
+    override fun createScore(
+        name: String,
+        matches: String,
+        scores: String
+    ): Single<ScoreEntity> =
+        api.createScore(name, matches, scores).map {
+            ScoreEntity(id = it.id, name = it.name, matches = it.matches, scores = it.scores)
+        }
 }
