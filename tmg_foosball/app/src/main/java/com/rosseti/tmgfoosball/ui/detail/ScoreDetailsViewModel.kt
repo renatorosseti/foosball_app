@@ -1,8 +1,7 @@
-package com.rosseti.tmgfoosball.scores
+package com.rosseti.tmgfoosball.ui.detail
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.rosseti.domain.entity.NetworkException
+import com.rosseti.domain.entity.ScoreEntity
 import com.rosseti.domain.usecase.CreateScoreUseCase
 import com.rosseti.domain.usecase.GetScoreDetailsUseCase
 import com.rosseti.domain.usecase.UpdateScoreUseCase
@@ -19,36 +18,48 @@ class ScoreDetailsViewModel @Inject constructor(
 
     val response = MutableLiveData<ScoreDetailsViewState>()
 
-    fun getScoreDetailById(scoreId: String) {
+    var scoreDetail = MutableLiveData<ScoreEntity>()
+
+    fun getScoreDetailById(scoreId: Int) {
         response.postValue(ScoreDetailsViewState.ShowLoadingState)
-        val result = getScoreDetailsUseCase(scoreId)
+        getScoreDetailsUseCase(scoreId)
             .subscribeBy(onSuccess = {
                 response.postValue(ScoreDetailsViewState.ShowContent(it))
-                Log.i("ScoreViewModel", "Response $it.")
+                updateScoreEntity(it)
             }, onError = { e ->
-                response.postValue(ScoreDetailsViewState.ShowNetworkError(404, NetworkException(e)))
+                response.postValue(ScoreDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
-    fun updateScore(scoreId: String, name: String, matches: String, scores: String) {
+    fun updateScore(name: String, matches: String, scores: String) {
         response.postValue(ScoreDetailsViewState.ShowLoadingState)
-        val result = updateScoreUseCase(scoreId, name, matches, scores)
+        updateScoreUseCase(scoreDetail.value?.id ?: 0, name, matches, scores)
             .subscribeBy(onSuccess = {
                 response.postValue(ScoreDetailsViewState.ShowContent(it))
-                Log.i("ScoreViewModel", "Response $it.")
+                updateScoreEntity(it)
             }, onError = { e ->
-                response.postValue(ScoreDetailsViewState.ShowNetworkError(404, NetworkException(e)))
+                response.postValue(ScoreDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
     fun createScore(name: String, matches: String, scores: String) {
         response.postValue(ScoreDetailsViewState.ShowLoadingState)
-        val result = createScoreUseCase(name, matches, scores)
+        createScoreUseCase(name, matches, scores)
             .subscribeBy(onSuccess = {
                 response.postValue(ScoreDetailsViewState.ShowContent(it))
-                Log.i("ScoreViewModel", "Response $it.")
+                updateScoreEntity(it)
             }, onError = { e ->
-                response.postValue(ScoreDetailsViewState.ShowNetworkError(404, NetworkException(e)))
+                response.postValue(ScoreDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
+
+    fun requestScore(name: String, matches: String, scores: String) {
+        if (scoreDetail.value == null) {
+            createScore(name, matches, scores)
+        } else {
+            updateScore(name, matches, scores)
+        }
+    }
+
+    fun updateScoreEntity(entity: ScoreEntity) = scoreDetail.postValue(entity)
 }

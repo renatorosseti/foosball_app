@@ -11,7 +11,7 @@ class UpdateScoreUseCase(
 ) {
 
     operator fun invoke(
-        scoreId: String,
+        scoreId: Int,
         name: String,
         matches: String,
         scores: String

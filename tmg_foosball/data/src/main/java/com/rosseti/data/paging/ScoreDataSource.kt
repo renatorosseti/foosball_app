@@ -1,6 +1,5 @@
 package com.rosseti.data.paging
 
-import android.util.Log
 import androidx.paging.rxjava2.RxPagingSource
 import com.rosseti.data.api.Api
 import com.rosseti.data.mapper.ScoreListToDomainMapper
@@ -21,7 +20,6 @@ class ScoreDataSource(val api: Api) : RxPagingSource<Int, ScoreEntity>() {
                 .subscribeOn(Schedulers.io())
             response.map {
                 val mapResponse = ScoreListToDomainMapper.transformFrom(it)
-                Log.i("ObserveActions", "Score Response: $it")
                 toLoadResult(mapResponse, page)
             }.onErrorReturn {
                 LoadResult.Error(it)
@@ -42,9 +40,9 @@ class ScoreDataSource(val api: Api) : RxPagingSource<Int, ScoreEntity>() {
     private fun toLoadResult(data: ScoreListEntity, position: Int): LoadResult<Int, ScoreEntity> {
 
         return LoadResult.Page(
-            data = data.scoreList ?: listOf(),
-            prevKey = if (position == 1) null else position - 1,
-            nextKey = if (position == data.totalPages) null else position + 1
+            data = data.scoreList,
+            prevKey = if (position == 1) null else position,
+            nextKey = if (position == data.totalPages) null else position
         )
     }
 }

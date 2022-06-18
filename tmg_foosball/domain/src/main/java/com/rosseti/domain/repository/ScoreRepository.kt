@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 interface ScoreRepository {
     fun fetchScores(): Flowable<PagingData<ScoreEntity>>
-    fun fetchScoreById(scoreId: String): Single<ScoreEntity>
-    fun updateScore(scoreId: String, name: String, matches: String, scores: String): Single<ScoreEntity>
+    fun fetchScoreById(scoreId: Int): Single<ScoreEntity>
+    fun updateScore(scoreId: Int, name: String, matches: String, scores: String): Single<ScoreEntity>
     fun createScore(name: String, matches: String, scores: String): Single<ScoreEntity>
 }

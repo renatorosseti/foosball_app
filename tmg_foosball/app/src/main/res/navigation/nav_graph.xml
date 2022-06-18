@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/ScoreListFragment"
-        android:name="com.rosseti.tmgfoosball.scores.ScoreListFragment"
+        android:name="com.rosseti.tmgfoosball.ui.list.ScoreListFragment"
         android:label="@string/score_fragment"
         tools:layout="@layout/fragment_score_list">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/scoreDetailsFragment"
-        android:name="com.rosseti.tmgfoosball.scores.ScoreDetailsFragment"
+        android:name="com.rosseti.tmgfoosball.ui.detail.ScoreDetailsFragment"
         android:label="ScoreDetailsFragment"
         tools:layout="@layout/fragment_score_details"/>
 </navigation>

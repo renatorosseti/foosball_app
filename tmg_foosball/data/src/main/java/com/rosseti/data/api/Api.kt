@@ -12,12 +12,12 @@ interface Api {
     fun fetchScores(): Single<List<ScoreModel>>
 
     @GET(value = "scores/{scoreId}")
-    fun fetchScoreById(@Path("scoreId") scoreId: String): Single<ScoreModel>
+    fun fetchScoreById(@Path("scoreId") scoreId: Int): Single<ScoreModel>
 
     @FormUrlEncoded
     @PUT(value = "scores/{scoreId}")
     fun updateScore(
-        @Path("scoreId") scoreId: String,
+        @Path("scoreId") scoreId: Int,
         @Field("name") name: String,
         @Field("matches") matches: String,
         @Field("scores") scores: String

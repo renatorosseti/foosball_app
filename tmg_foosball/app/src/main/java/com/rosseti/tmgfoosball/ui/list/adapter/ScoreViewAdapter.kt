@@ -1,6 +1,5 @@
-package com.rosseti.tmgfoosball
+package com.rosseti.tmgfoosball.ui.list.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,6 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rosseti.domain.entity.ScoreEntity
+import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.databinding.ItemScoreBinding
 
 class ScoreViewAdapter(
@@ -23,7 +23,6 @@ class ScoreViewAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.i("ObserveActions", "position $position")
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -33,7 +32,6 @@ class ScoreViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(scoreEntity: ScoreEntity) {
             binding.apply {
-                Log.i("ObserveActions", "Entity $scoreEntity")
                 binding.item = scoreEntity
                 scoreItem.setOnClickListener {
                     onItemClicked(scoreEntity)

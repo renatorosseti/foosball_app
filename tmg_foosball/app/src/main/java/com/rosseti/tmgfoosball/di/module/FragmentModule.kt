@@ -1,7 +1,7 @@
 package com.rosseti.tmgfoosball.di.module
 
-import com.rosseti.tmgfoosball.scores.ScoreDetailsFragment
-import com.rosseti.tmgfoosball.scores.ScoreListFragment
+import com.rosseti.tmgfoosball.ui.detail.ScoreDetailsFragment
+import com.rosseti.tmgfoosball.ui.list.ScoreListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

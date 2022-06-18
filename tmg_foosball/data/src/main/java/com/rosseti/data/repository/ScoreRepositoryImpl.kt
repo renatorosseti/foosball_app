@@ -28,13 +28,13 @@ class ScoreRepositoryImpl(private val api: Api) : ScoreRepository {
         return pager
     }
 
-    override fun fetchScoreById(scoreId: String): Single<ScoreEntity> =
+    override fun fetchScoreById(scoreId: Int): Single<ScoreEntity> =
         api.fetchScoreById(scoreId).map {
             ScoreEntity(id = it.id, name = it.name, matches = it.matches, scores = it.scores)
         }
 
     override fun updateScore(
-        scoreId: String,
+        scoreId: Int,
         name: String,
         matches: String,
         scores: String

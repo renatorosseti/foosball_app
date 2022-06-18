@@ -10,7 +10,7 @@ class GetScoreDetailsUseCase(
     private val scoreRepository: ScoreRepository
 ) {
 
-    operator fun invoke(scoreId: String): Single<ScoreEntity> =
+    operator fun invoke(scoreId: Int): Single<ScoreEntity> =
         scoreRepository.fetchScoreById(scoreId)
             .subscribeOn(schedulers.subscribeOn)
             .observeOn(schedulers.observeOn)
