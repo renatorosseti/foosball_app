@@ -41,8 +41,8 @@ class ScoreDataSource(val api: Api) : RxPagingSource<Int, ScoreEntity>() {
 
         return LoadResult.Page(
             data = data.scoreList,
-            prevKey = if (position == 1) null else position,
-            nextKey = if (position == data.totalPages) null else position
+            prevKey = if (position == 1) null else position - 1,
+            nextKey = if (position == data.totalPages) null else position + 1
         )
     }
 }
