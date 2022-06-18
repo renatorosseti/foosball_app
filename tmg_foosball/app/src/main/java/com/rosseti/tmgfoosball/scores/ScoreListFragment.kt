@@ -40,6 +40,7 @@ class ScoreListFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         viewModel = ViewModelProvider(this, this.viewModelFactory).get(ScoreViewModel::class.java)
         setupAdapter()
+        setupButton()
         observeActions()
         viewModel.getScoreList()
     }
@@ -53,7 +54,14 @@ class ScoreListFragment : Fragment() {
             )
         }
         binding.list.adapter = adapter
+    }
 
+    private fun setupButton() {
+        binding.newScore.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_ScoreListFragment_to_scoreDetailsFragment
+            )
+        }
     }
 
     private fun observeActions() {

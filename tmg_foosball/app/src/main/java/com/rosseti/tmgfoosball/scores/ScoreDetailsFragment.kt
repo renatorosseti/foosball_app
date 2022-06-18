@@ -37,27 +37,40 @@ class ScoreDetailsFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
+        setupScoreEntity()
+        viewModel = ViewModelProvider(this, this.viewModelFactory).get(ScoreDetailsViewModel::class.java)
+        setupButtonScore()
+        observeActions()
+    }
+
+    private fun setupScoreEntity() {
         if (arguments != null) {
             scoreEntity = arguments?.getParcelable("score")
             if (scoreEntity != null) {
                 binding.item = scoreEntity
             }
         }
+    }
 
-        viewModel =
-            ViewModelProvider(this, this.viewModelFactory).get(ScoreDetailsViewModel::class.java)
+    private fun setupButtonScore() {
         binding.apply {
             updateScoreButton.setOnClickListener {
-                viewModel.updateScore(
-                    scoreEntity?.id.toString(),
-                    editName.text.toString(),
-                    editMatches.text.toString(),
-                    editScores.text.toString()
-                )
+                if (scoreEntity == null) {
+                    viewModel.createScore(
+                        editName.text.toString(),
+                        editMatches.text.toString(),
+                        editScores.text.toString()
+                    )
+                } else {
+                    viewModel.updateScore(
+                        scoreEntity?.id.toString(),
+                        editName.text.toString(),
+                        editMatches.text.toString(),
+                        editScores.text.toString()
+                    )
+                }
             }
         }
-
-        observeActions()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -75,6 +88,7 @@ class ScoreDetailsFragment : DaggerFragment() {
             when (it) {
                 is ScoreDetailsViewState.ShowContent -> {
                     Log.i("ObserveActions", "Score: ${it.score}")
+                    scoreEntity = it.score
                     binding.item = it.score
                 }
                 else -> {
