@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -40,7 +41,7 @@ class ScoreDetailsFragment : BaseFragment() {
         viewModel =
             ViewModelProvider(this, this.viewModelFactory).get(ScoreDetailsViewModel::class.java)
         setupScoreEntity()
-        setupButtonScore()
+        setupUiButtons()
         observeActions()
     }
 
@@ -54,13 +55,19 @@ class ScoreDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupButtonScore() {
+    private fun setupUiButtons() {
         binding.apply {
             updateScoreButton.setOnClickListener {
                 viewModel.requestScore(
                     name = editName.text.toString(),
                     matches = editMatches.text.toString(),
                     scores = editScores.text.toString()
+                )
+            }
+            matchesButton.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_scoreDetailsFragment_to_resultListFragment,
+                    bundleOf("results" to viewModel.scoreDetail.value?.results)
                 )
             }
         }

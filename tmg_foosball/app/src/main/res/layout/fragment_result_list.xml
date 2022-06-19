@@ -20,20 +20,9 @@
                 style="@style/textTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/profile_name"
+                android:text="@string/adversary"
                 android:textColor="?attr/colorOnSecondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_matches"
-                style="@style/textTitleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/dimen_16dp"
-                android:text="@string/matches"
-                android:textColor="?attr/colorOnSecondary"
-                app:layout_constraintEnd_toStartOf="@+id/txt_result"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -41,7 +30,8 @@
                 style="@style/textTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/scores"
+                android:text="@string/result"
+                android:layout_marginEnd="@dimen/dimen_48dp"
                 android:textColor="?attr/colorOnSecondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

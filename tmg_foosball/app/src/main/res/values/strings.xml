@@ -8,4 +8,8 @@
     <string name="matches">Matches</string>
     <string name="scores">Scores</string>
     <string name="save">Save</string>
+    <string name="adversary">Adversary</string>
+    <string name="result">Result</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>

@@ -18,5 +18,14 @@
         android:id="@+id/scoreDetailsFragment"
         android:name="com.rosseti.tmgfoosball.ui.detail.ScoreDetailsFragment"
         android:label="ScoreDetailsFragment"
-        tools:layout="@layout/fragment_score_details"/>
+        tools:layout="@layout/fragment_score_details" >
+        <action
+            android:id="@+id/action_scoreDetailsFragment_to_resultListFragment"
+            app:destination="@id/resultListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultListFragment"
+        android:name="com.rosseti.tmgfoosball.ui.list.ResultListFragment"
+        android:label="ResultListFragment"
+        tools:layout="@layout/fragment_result_list" />
 </navigation>

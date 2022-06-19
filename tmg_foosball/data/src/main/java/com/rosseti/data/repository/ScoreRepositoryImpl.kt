@@ -5,7 +5,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.rxjava2.flowable
 import com.rosseti.data.api.Api
+import com.rosseti.data.model.ScoreModel
 import com.rosseti.data.paging.ScoreDataSource
+import com.rosseti.domain.entity.ResultEntity
 import com.rosseti.domain.entity.ScoreEntity
 import com.rosseti.domain.repository.ScoreRepository
 import io.reactivex.Flowable
@@ -35,7 +37,7 @@ class ScoreRepositoryImpl(private val api: Api) : ScoreRepository {
         scores: String
     ): Single<ScoreEntity> =
         api.updateScore(scoreId, name, matches, scores).map {
-            ScoreEntity(id = it.id, name = it.name, matches = it.matches, scores = it.scores)
+            createScoreEntity(it)
         }
 
     override fun createScore(
@@ -44,6 +46,22 @@ class ScoreRepositoryImpl(private val api: Api) : ScoreRepository {
         scores: String
     ): Single<ScoreEntity> =
         api.createScore(name, matches, scores).map {
-            ScoreEntity(id = it.id, name = it.name, matches = it.matches, scores = it.scores)
+            createScoreEntity(it)
         }
+
+    private fun createScoreEntity(it: ScoreModel) = ScoreEntity(
+        id = it.id,
+        name = it.name,
+        matches = it.results.size.toString(),
+        scores = it.results.filter { it.score > it.adversaryScore }.size.toString(),
+        results = it.results.map { res ->
+            ResultEntity(
+                id = res.id,
+                adversary = res.adversary,
+                score = res.score,
+                adversaryScore = res.adversaryScore,
+                result = "${res.score} x ${res.adversaryScore}",
+                isWinner = res.score > res.adversaryScore
+            )
+        })
 }
