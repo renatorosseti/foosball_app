@@ -1,7 +1,6 @@
 package com.rosseti.tmgfoosball.ui.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,33 +12,33 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
-import com.rosseti.tmgfoosball.databinding.FragmentScoreListBinding
-import com.rosseti.tmgfoosball.ui.list.adapter.ScoreViewAdapter
+import com.rosseti.tmgfoosball.databinding.FragmentGamerListBinding
+import com.rosseti.tmgfoosball.ui.adapter.GamerViewAdapter
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class ScoreListFragment : BaseFragment() {
+class GamerListFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: ScoreListViewModel
+    private lateinit var viewModel: GameListViewModel
 
-    lateinit var binding: FragmentScoreListBinding
+    lateinit var binding: FragmentGamerListBinding
 
-    lateinit var adapter: ScoreViewAdapter
+    lateinit var adapter: GamerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_score_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_gamer_list, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
-        viewModel = ViewModelProvider(this, this.viewModelFactory).get(ScoreListViewModel::class.java)
+        viewModel = ViewModelProvider(this, this.viewModelFactory).get(GameListViewModel::class.java)
         setupAdapter()
         setupButton()
         observeActions()
@@ -47,11 +46,10 @@ class ScoreListFragment : BaseFragment() {
     }
 
     private fun setupAdapter() {
-        adapter = ScoreViewAdapter {
-            Log.i("ObserveActions", "Item: $it")
+        adapter = GamerViewAdapter {
             findNavController().navigate(
-                R.id.action_ScoreListFragment_to_scoreDetailsFragment,
-                bundleOf("score" to it)
+                R.id.action_gamerListFragment_to_gamerDetailsFragment,
+                bundleOf("gamer" to it)
             )
         }
         binding.list.adapter = adapter
@@ -60,7 +58,7 @@ class ScoreListFragment : BaseFragment() {
     private fun setupButton() {
         binding.newScore.setOnClickListener {
             findNavController().navigate(
-                R.id.action_ScoreListFragment_to_scoreDetailsFragment
+                R.id.action_gamerListFragment_to_gamerDetailsFragment
             )
         }
     }
@@ -68,10 +66,10 @@ class ScoreListFragment : BaseFragment() {
     private fun observeActions() {
         viewModel.response.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is ScoreListViewState.ShowLoadingState -> {
+                is GamerListViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
                 }
-                is ScoreListViewState.ShowContentFeed -> {
+                is GamerListViewState.ShowContentFeed -> {
                     adapter.submitData(lifecycle, it.scores)
                     adapter.addLoadStateListener { loadState ->
                         if (loadState.source.append == LoadState.NotLoading(endOfPaginationReached = true)) {
@@ -79,7 +77,7 @@ class ScoreListFragment : BaseFragment() {
                         }
                     }
                 }
-                is ScoreListViewState.ShowNetworkError -> {
+                is GamerListViewState.ShowNetworkError -> {
                     progressDialog.hide()
                     dialog.show(
                         context = requireContext(),

@@ -5,18 +5,22 @@
     <data>
 
         <variable
-            name="item"
-            type="com.rosseti.domain.entity.ScoreEntity" />
+            name="gamer"
+            type="com.rosseti.domain.entity.GamerEntity" />
+
+        <variable
+            name="game"
+            type="com.rosseti.domain.entity.GameEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/matches_button"
+            android:layout_height="@dimen/dimen_0dp"
+            app:layout_constraintBottom_toTopOf="@+id/save_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,8 +42,9 @@
                         android:id="@+id/edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:maxLines="1"
-                        android:text="@{item.name}" />
+                        android:text="@{gamer.name}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -47,20 +52,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:hint="@string/matches">
+                    android:background="@color/white"
+                    android:hint="@string/score">
 
                     <EditText
                         android:id="@+id/edit_matches"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:inputType="number"
                         android:maxLines="1"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:text="@{item.matches}" />
+                        android:text="@{game.score}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -68,42 +72,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:hint="@string/scores">
+                    android:hint="@string/adversary">
 
                     <EditText
                         android:id="@+id/edit_scores"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:inputType="number"
                         android:maxLines="1"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:text="@{item.scores}" />
+                        android:text="@{game.adversary}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_adv_scores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:hint="@string/adversary_score">
+
+                    <EditText
+                        android:id="@+id/edit_adv_scores"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:text="@{game.scoreAdversary}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/matches_button"
-            style="@style/ButtonScore"
-            _toTopOf="@id/update_score_button"
-            android:layout_marginStart="@dimen/dimen_16dp"
-            android:layout_marginEnd="@dimen/dimen_16dp"
-            android:layout_marginBottom="@dimen/dimen_16dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/matches"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintBottom_toTopOf="@+id/update_score_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/update_score_button"
+            android:id="@+id/save_button"
             style="@style/ButtonScore"
             android:layout_marginStart="@dimen/dimen_16dp"
             android:layout_marginEnd="@dimen/dimen_16dp"

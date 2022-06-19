@@ -1,9 +1,9 @@
 package com.rosseti.domain.entity
 
-data class ScoreListEntity(
+data class GamerListEntity(
     var page: Int? = null,
     var totalResults: Int? = null,
     var totalPages: Int = 1,
-    val scoreList: List<ScoreEntity> = emptyList()
+    val gamerList: List<GamerEntity> = emptyList()
 )
 

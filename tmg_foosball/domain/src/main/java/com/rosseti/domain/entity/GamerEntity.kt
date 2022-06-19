@@ -1,24 +1,23 @@
 package com.rosseti.domain.entity
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ScoreEntity(
+data class GamerEntity(
     val id: Int,
     val name: String,
     val matches: String,
     val scores: String,
-    val results: List<ResultEntity>
+    val games: MutableList<GameEntity>
 ): Parcelable
 
 @Parcelize
-data class ResultEntity(
+data class GameEntity(
     val id: Int,
     val adversary: String,
     val score: String,
-    val adversaryScore: String,
+    val scoreAdversary: String,
     val result: String,
     val isWinner: Boolean
 ): Parcelable

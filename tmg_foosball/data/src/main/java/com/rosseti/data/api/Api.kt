@@ -1,6 +1,7 @@
 package com.rosseti.data.api
 
-import com.rosseti.data.model.ScoreModel
+import com.rosseti.data.model.GameModel
+import com.rosseti.data.model.GamerModel
 import io.reactivex.Single
 import retrofit2.http.*
 import javax.inject.Singleton
@@ -9,22 +10,20 @@ import javax.inject.Singleton
 interface Api {
 
     @GET("/scores")
-    fun fetchScores(): Single<List<ScoreModel>>
+    fun fetchScores(): Single<List<GamerModel>>
 
     @FormUrlEncoded
     @PUT(value = "scores/{scoreId}")
     fun updateScore(
         @Path("scoreId") scoreId: Int,
         @Field("name") name: String,
-        @Field("matches") matches: String,
-        @Field("scores") scores: String
-    ): Single<ScoreModel>
+        @Field("games") games: List<GameModel>
+    ): Single<GamerModel>
 
     @FormUrlEncoded
     @POST(value = "scores")
     fun createScore(
         @Field("name") name: String,
-        @Field("matches") matches: String,
-        @Field("scores") scores: String
-    ): Single<ScoreModel>
+        @Field("games") games: List<GameModel>
+    ): Single<GamerModel>
 }

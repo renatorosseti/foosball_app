@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/dimen_16dp"
-                android:text="@string/matches"
+                android:text="@string/games"
                 android:textColor="?attr/colorOnSecondary"
                 app:layout_constraintEnd_toStartOf="@+id/txt_result"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -3,29 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ScoreListFragment">
+    app:startDestination="@id/GamerListFragment">
 
     <fragment
-        android:id="@+id/ScoreListFragment"
-        android:name="com.rosseti.tmgfoosball.ui.list.ScoreListFragment"
-        android:label="@string/score_fragment"
-        tools:layout="@layout/fragment_score_list">
+        android:id="@+id/GamerListFragment"
+        android:name="com.rosseti.tmgfoosball.ui.list.GamerListFragment"
+        android:label="@string/foosball_scores"
+        tools:layout="@layout/fragment_gamer_list">
         <action
-            android:id="@+id/action_ScoreListFragment_to_scoreDetailsFragment"
-            app:destination="@id/scoreDetailsFragment" />
+            android:id="@+id/action_gamerListFragment_to_gamerDetailsFragment"
+            app:destination="@id/gamerDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/scoreDetailsFragment"
-        android:name="com.rosseti.tmgfoosball.ui.detail.ScoreDetailsFragment"
-        android:label="ScoreDetailsFragment"
-        tools:layout="@layout/fragment_score_details" >
+        android:id="@+id/gamerDetailsFragment"
+        android:name="com.rosseti.tmgfoosball.ui.detail.GamerDetailsFragment"
+        android:label="@string/foosball_scores"
+        tools:layout="@layout/fragment_gamer_details" >
         <action
-            android:id="@+id/action_scoreDetailsFragment_to_resultListFragment"
-            app:destination="@id/resultListFragment" />
+            android:id="@+id/action_gamerDetailsFragment_to_gameDetailsFragment"
+            app:destination="@id/gameDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/resultListFragment"
-        android:name="com.rosseti.tmgfoosball.ui.list.ResultListFragment"
-        android:label="ResultListFragment"
-        tools:layout="@layout/fragment_result_list" />
+        android:id="@+id/gameDetailsFragment"
+        android:name="com.rosseti.tmgfoosball.ui.detail.GameDetailsFragment"
+        android:label="@string/foosball_scores"
+        tools:layout="@layout/fragment_game_detail" />
 </navigation>

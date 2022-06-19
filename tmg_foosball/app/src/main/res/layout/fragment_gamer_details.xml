@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.rosseti.domain.entity.GamerEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_0dp"
+            app:layout_constraintBottom_toTopOf="@+id/new_game_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:hint="@string/profile_name">
+
+                    <EditText
+                        android:id="@+id/edit_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:maxLines="1"
+                        android:text="@{item.name}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_matches"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:background="@color/white"
+                    android:hint="@string/games">
+
+                    <EditText
+                        android:id="@+id/edit_matches"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:text="@{item.matches}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_scores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:hint="@string/scores">
+
+                    <EditText
+                        android:id="@+id/edit_scores"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:text="@{item.scores}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/header_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dimen_16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/txt_title"
+                            style="@style/textTitleMatchesStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/adversary"
+                            android:textColor="?attr/colorOnSecondary"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/txt_result"
+                            style="@style/textTitleMatchesStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/dimen_48dp"
+                            android:text="@string/result"
+                            android:textColor="?attr/colorOnSecondary"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/header_view" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/new_game_button"
+            style="@style/ButtonScore"
+            android:layout_marginStart="@dimen/dimen_16dp"
+            android:layout_marginEnd="@dimen/dimen_16dp"
+            android:layout_marginBottom="@dimen/dimen_24dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/new_game"
+            android:textColor="@android:color/background_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

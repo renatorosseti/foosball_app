@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">TMG Foosball</string>
-    <string name="score_fragment">Foosball Scores</string>
+    <string name="foosball_scores">Foosball Scores</string>
     <string name="error_internet">Your app is offline, please try again.</string>
     <string name="progress_message">Loading</string>
     <string name="ok">ok</string>
     <string name="profile_name">Name</string>
-    <string name="matches">Matches</string>
+    <string name="games">Games</string>
+    <string name="new_game">New game</string>
     <string name="scores">Scores</string>
     <string name="save">Save</string>
     <string name="adversary">Adversary</string>
+    <string name="adversary_score">Adversary score</string>
+    <string name="score">Score</string>
     <string name="result">Result</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
