@@ -13,10 +13,9 @@ class UpdateGamerUseCase(
 
     operator fun invoke(
         id: Int,
-        name: String,
-        games: List<GameEntity>
+        name: String
     ): Single<GamerEntity> =
-        gamerRepository.updateGamer(id, name, games)
+        gamerRepository.updateGamer(id, name)
             .subscribeOn(schedulers.subscribeOn)
             .observeOn(schedulers.observeOn)
 }

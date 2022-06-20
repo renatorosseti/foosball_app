@@ -16,14 +16,34 @@ interface Api {
     @PUT(value = "scores/{scoreId}")
     fun updateScore(
         @Path("scoreId") scoreId: Int,
-        @Field("name") name: String,
-        @Field("games") games: List<GameModel>
+        @Field("name") name: String
     ): Single<GamerModel>
 
     @FormUrlEncoded
     @POST(value = "scores")
     fun createScore(
-        @Field("name") name: String,
-        @Field("games") games: List<GameModel>
+        @Field("name") name: String
     ): Single<GamerModel>
+
+    @GET("/games")
+    fun fetchGames(): Single<List<GameModel>>
+
+    @FormUrlEncoded
+    @PUT(value = "games/{gameId}")
+    fun updateGame(
+        @Path("gameId") gameId: String,
+        @Field("gamer_id") gamerId: String,
+        @Field("adversary") adversary: String,
+        @Field("score") score: Int,
+        @Field("score_adversary") scoreAdversary: Int
+    ): Single<GameModel>
+
+    @FormUrlEncoded
+    @POST(value = "games")
+    fun createGame(
+        @Field("gamer_id") gamerId: String,
+        @Field("adversary") adversary: String,
+        @Field("score") score: Int,
+        @Field("score_adversary") scoreAdversary: Int
+    ): Single<GameModel>
 }

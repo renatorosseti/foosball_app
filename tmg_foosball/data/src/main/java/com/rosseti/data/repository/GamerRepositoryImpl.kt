@@ -5,7 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.rxjava2.flowable
 import com.rosseti.data.api.Api
-import com.rosseti.data.model.GameModel
 import com.rosseti.data.model.GamerModel
 import com.rosseti.data.paging.GamerDataSource
 import com.rosseti.domain.entity.GameEntity
@@ -33,42 +32,23 @@ class GamerRepositoryImpl(private val api: Api) : GamerRepository {
 
     override fun updateGamer(
         scoreId: Int,
-        name: String,
-        games: List<GameEntity>
+        name: String
     ): Single<GamerEntity> =
-        api.updateScore(
-            scoreId,
-            name,
-            games.map { GameModel(it.id, it.adversary, it.score, it.scoreAdversary) })
+        api.updateScore(scoreId, name)
             .map {
                 createGamerEntity(it)
             }
 
     override fun createGamer(
-        name: String,
-        games: List<GameEntity>
+        name: String
     ): Single<GamerEntity> =
-        api.createScore(
-            name,
-            games.map { GameModel(it.id, it.adversary, it.score, it.scoreAdversary) })
+        api.createScore(name)
             .map {
                 createGamerEntity(it)
             }
 
     private fun createGamerEntity(it: GamerModel) = GamerEntity(
         id = it.id,
-        name = it.name,
-        matches = it.games.size.toString(),
-        scores = it.games.filter { it.score > it.scoreAdversary }.size.toString(),
-        games = it.games.map { res ->
-            GameEntity(
-                id = res.id,
-                adversary = res.adversary,
-                score = res.score,
-                scoreAdversary = res.scoreAdversary,
-                result = "${res.score} x ${res.scoreAdversary}",
-                isWinner = res.score > res.scoreAdversary
-            )
-        }.toMutableList()
+        name = it.name
     )
 }
