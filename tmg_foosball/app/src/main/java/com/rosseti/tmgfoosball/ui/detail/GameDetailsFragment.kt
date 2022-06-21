@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.rosseti.domain.entity.GameEntity
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
 import com.rosseti.tmgfoosball.databinding.FragmentGameDetailBinding
@@ -21,7 +21,7 @@ class GameDetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: GamerDetailsViewModel
+    private lateinit var viewModel: PlayerDetailsViewModel
 
     lateinit var binding: FragmentGameDetailBinding
 
@@ -37,7 +37,7 @@ class GameDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this, this.viewModelFactory).get(GamerDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, this.viewModelFactory).get(PlayerDetailsViewModel::class.java)
         setupEntities()
         setupButton()
         observeActions()
@@ -56,18 +56,18 @@ class GameDetailsFragment : BaseFragment() {
     private fun setupButton() {
         binding.apply {
             saveButton.setOnClickListener {
-                viewModel.requestNewGame(editName.text.toString(), game)
+                viewModel.requestNewGame(editName.text.toString(), editAdversary.text.toString(), editScore.text.toString(), editAdversary.text.toString())
             }
         }
     }
 
     private fun setupEntities() {
         if (arguments != null) {
-            val gamerEntity = arguments?.getParcelable<GamerEntity>("gamer")
+            val playerEntity = arguments?.getParcelable<PlayerEntity>("gamer")
             val gameEntity = arguments?.getParcelable<GameEntity>("game")
-            if (gamerEntity != null) {
-                binding.gamer = gamerEntity
-                viewModel.updateGamerEntity(gamerEntity)
+            if (playerEntity != null) {
+                binding.player = playerEntity
+                viewModel.updateGamerEntity(playerEntity)
             }
             if (gameEntity != null) {
                 binding.game = gameEntity
@@ -79,13 +79,13 @@ class GameDetailsFragment : BaseFragment() {
     private fun observeActions() {
         viewModel.response.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is GamerDetailsViewState.ShowLoadingState -> {
+                is PlayerDetailsViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
                 }
-                is GamerDetailsViewState.ShowContent -> {
+                is PlayerDetailsViewState.ShowContent -> {
                     progressDialog.hide()
                 }
-                is GamerDetailsViewState.ShowNetworkError -> {
+                is PlayerDetailsViewState.ShowNetworkError -> {
                     progressDialog.hide()
                     dialog.show(
                         context = requireContext(),

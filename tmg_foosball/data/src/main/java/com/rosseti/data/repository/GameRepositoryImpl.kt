@@ -1,47 +1,43 @@
 package com.rosseti.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.rxjava2.flowable
 import com.rosseti.data.api.Api
 import com.rosseti.data.model.GameModel
-import com.rosseti.data.paging.GameDataSource
 import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.repository.GameRepository
-import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class GameRepositoryImpl(private val api: Api) : GameRepository {
-    override fun fetchGames(): Flowable<PagingData<GameEntity>> {
-        val pager = Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = true,
-                maxSize = 30,
-                prefetchDistance = 5,
-                initialLoadSize = 20
-            )
-        ) {
-            GameDataSource(api)
-        }.flowable
-
-        return pager
+    override fun fetchGames(): Single<List<GameEntity>> {
+        return api.fetchGames()
+            .map {
+                it.map { model ->
+                    GameEntity(
+                        id = model.id,
+                        gamerId = model.gamerId,
+                        adversary = model.adversary,
+                        score = model.score.toString(),
+                        scoreAdversary = model.scoreAdversary.toString()
+                    )
+                }
+            }
+            .subscribeOn(Schedulers.io())
     }
 
     override fun updateGame(
         id: String,
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ): Single<GameEntity> =
         api.updateGame(
             id,
             gamerId,
             adversary,
             score,
-            scoreAdversary)
+            scoreAdversary
+        )
             .map {
                 createGameEntity(it)
             }
@@ -49,14 +45,15 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
     override fun createGame(
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ): Single<GameEntity> =
         api.createGame(
             gamerId,
             adversary,
             score,
-            scoreAdversary)
+            scoreAdversary
+        )
             .map {
                 createGameEntity(it)
             }
@@ -64,8 +61,8 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
     private fun createGameEntity(it: GameModel) = GameEntity(
         id = it.id,
         adversary = it.adversary,
-        score = it.score,
-        scoreAdversary = it.scoreAdversary,
+        score = it.score.toString(),
+        scoreAdversary = it.scoreAdversary.toString(),
         result = "${it.score} x ${it.scoreAdversary}",
         isWinner = it.score > it.scoreAdversary
     )

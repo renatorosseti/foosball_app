@@ -1,7 +1,7 @@
 package com.rosseti.tmgfoosball.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.usecase.CreateGamerUseCase
 import com.rosseti.domain.usecase.GetScoreDetailsUseCase
 import com.rosseti.domain.usecase.UpdateGamerUseCase
@@ -15,8 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class GamerDetailsViewModelTest {
-    private lateinit var viewModel: GamerDetailsViewModel
+class PlayerDetailsViewModelTest {
+    private lateinit var viewModel: PlayerDetailsViewModel
 
     @MockK
     lateinit var getScoreDetailsUseCase: GetScoreDetailsUseCase
@@ -35,26 +35,26 @@ class GamerDetailsViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = GamerDetailsViewModel(getScoreDetailsUseCase, updateGamerUseCase, createGamerUseCase)
+        viewModel = PlayerDetailsViewModel(getScoreDetailsUseCase, updateGamerUseCase, createGamerUseCase)
     }
 
     @Test
     fun `Given score detail, when call the api, should update the score detail object`() {
 
         //given
-        val domainData = GamerEntity(id = scoreId, name = "test", matches = "1", scores = "1")
-        viewModel.gamerDetail.value = domainData
+        val domainData = PlayerEntity(id = scoreId, name = "test", matches = "1", scores = "1")
+        viewModel.playerDetail.value = domainData
 
-        val domainDataUpdated = GamerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
+        val domainDataUpdated = PlayerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
         every{ updateGamerUseCase(scoreId,"test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
 
         //when
         viewModel.requestNewGame("test", games = "10", scores = "10")
 
         //to check the one value for testing
-        Assert.assertNotNull(viewModel.gamerDetail)
+        Assert.assertNotNull(viewModel.playerDetail)
 
-        Assert.assertEquals(GamerDetailsViewState.ShowContent(domainDataUpdated), viewModel.response.value)
+        Assert.assertEquals(PlayerDetailsViewState.ShowContent(domainDataUpdated), viewModel.response.value)
     }
 
     @Test
@@ -62,19 +62,19 @@ class GamerDetailsViewModelTest {
 
         //given
         val domainData = null
-        viewModel.gamerDetail.value = domainData
+        viewModel.playerDetail.value = domainData
 
-        val domainDataUpdated = GamerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
+        val domainDataUpdated = PlayerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
         every{ createGamerUseCase("test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
 
         //when
         viewModel.requestNewGame("test", games = "10", scores = "10")
 
         //to check the one value for testing
-        Assert.assertNotNull(viewModel.gamerDetail)
+        Assert.assertNotNull(viewModel.playerDetail)
 
-        Assert.assertEquals(domainDataUpdated, viewModel.gamerDetail.value)
-        Assert.assertEquals(GamerDetailsViewState.ShowContent(domainDataUpdated), viewModel.response.value)
+        Assert.assertEquals(domainDataUpdated, viewModel.playerDetail.value)
+        Assert.assertEquals(PlayerDetailsViewState.ShowContent(domainDataUpdated), viewModel.response.value)
     }
 
     @Test
@@ -90,6 +90,6 @@ class GamerDetailsViewModelTest {
         viewModel.requestNewGame("test", games = "10", scores = "10")
 
         //should
-        Assert.assertEquals(viewModel.response.value, GamerDetailsViewState.ShowNetworkError(error))
+        Assert.assertEquals(viewModel.response.value, PlayerDetailsViewState.ShowNetworkError(error))
     }
 }

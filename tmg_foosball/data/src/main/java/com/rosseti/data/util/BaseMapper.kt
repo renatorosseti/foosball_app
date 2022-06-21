@@ -2,7 +2,7 @@ package com.rosseti.data.util
 
 import com.rosseti.data.model.GamerModel
 import com.rosseti.data.model.mapToDomain
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 
 abstract class BaseMapper<T, K> {
 
@@ -18,6 +18,6 @@ abstract class BaseMapper<T, K> {
         return source.map { src -> transformTo(src) }
     }
 
-    fun List<GamerModel>.mapLisToDomain(): List<GamerEntity> = map { it.mapToDomain() }
+    fun List<GamerModel>.mapLisToDomain(): List<PlayerEntity> = map { it.mapToDomain() }
 
 }

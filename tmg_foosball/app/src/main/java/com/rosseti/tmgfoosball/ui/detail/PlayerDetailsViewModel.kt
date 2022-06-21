@@ -2,7 +2,7 @@ package com.rosseti.tmgfoosball.ui.detail
 
 import androidx.lifecycle.MutableLiveData
 import com.rosseti.domain.entity.GameEntity
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.usecase.CreateGameUseCase
 import com.rosseti.domain.usecase.CreateGamerUseCase
 import com.rosseti.domain.usecase.UpdateGameUseCase
@@ -12,35 +12,35 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class GamerDetailsViewModel @Inject constructor(
+class PlayerDetailsViewModel @Inject constructor(
     private val updateGamerUseCase: UpdateGamerUseCase,
     private val createGamerUseCase: CreateGamerUseCase,
     private val updateGameUseCase: UpdateGameUseCase,
     private val createGameUseCase: CreateGameUseCase
 ) : BaseViewModel() {
 
-    val response = MutableLiveData<GamerDetailsViewState>()
+    val response = MutableLiveData<PlayerDetailsViewState>()
 
-    var gamerDetail: GamerEntity = GamerEntity()
+    var playerDetail: PlayerEntity = PlayerEntity()
 
     var gameDetail: GameEntity = GameEntity()
 
-    fun requestNewGame(name: String, adversary: String, score: Int, scoreAdversary: Int) {
+    fun requestNewGame(name: String, adversary: String, score: String, scoreAdversary: String) {
         when {
-            gamerDetail.id.isEmpty() -> {
+            playerDetail.id.isEmpty() -> {
                 createGamer(name, adversary, score, scoreAdversary)
             }
             gameDetail.id.isEmpty() -> {
-                createGame(gamerDetail.id, adversary, score, scoreAdversary)
+                createGame(playerDetail.id, adversary, score, scoreAdversary)
             }
             else -> {
-                updateGame(gamerDetail.id, gamerDetail.id, adversary, score, scoreAdversary)
+                updateGame(playerDetail.id, playerDetail.id, adversary, score, scoreAdversary)
             }
         }
     }
 
-    fun updateGamerEntity(entity: GamerEntity) {
-        gamerDetail = entity
+    fun updateGamerEntity(entity: PlayerEntity) {
+        playerDetail = entity
     }
 
     fun updateGameEntity(entity: GameEntity) {
@@ -51,52 +51,52 @@ class GamerDetailsViewModel @Inject constructor(
         id: String,
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ) {
-        response.postValue(GamerDetailsViewState.ShowLoadingState)
+        response.postValue(PlayerDetailsViewState.ShowLoadingState)
         updateGameUseCase(id, adversary, gamerId, score, scoreAdversary)
             .subscribeBy(onSuccess = {
-                response.postValue(GamerDetailsViewState.ShowContent(gamerDetail, it))
+                response.postValue(PlayerDetailsViewState.ShowContent(playerDetail, it))
                 updateGameEntity(it)
             }, onError = { e ->
-                response.postValue(GamerDetailsViewState.ShowNetworkError(e))
+                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
-    private fun createGame(gamerId: String, adversary: String, score: Int, scoreAdversary: Int) {
-        response.postValue(GamerDetailsViewState.ShowLoadingState)
+    private fun createGame(gamerId: String, adversary: String, score: String, scoreAdversary: String) {
+        response.postValue(PlayerDetailsViewState.ShowLoadingState)
         createGameUseCase(gamerId, adversary, score, scoreAdversary)
             .subscribeBy(onSuccess = {
-                response.postValue(GamerDetailsViewState.ShowContent(gamerDetail, it))
+                response.postValue(PlayerDetailsViewState.ShowContent(playerDetail, it))
                 updateGameEntity(it)
             }, onError = { e ->
-                response.postValue(GamerDetailsViewState.ShowNetworkError(e))
+                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
     private fun updateGamer(id: Int, name: String) {
-        response.postValue(GamerDetailsViewState.ShowLoadingState)
+        response.postValue(PlayerDetailsViewState.ShowLoadingState)
         updateGamerUseCase(id, name)
             .subscribeBy(onSuccess = {
                 updateGamerEntity(it)
-                response.postValue(GamerDetailsViewState.ShowContent(it, gameDetail))
+                response.postValue(PlayerDetailsViewState.ShowContent(it, gameDetail))
             }, onError = { e ->
-                response.postValue(GamerDetailsViewState.ShowNetworkError(e))
+                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
-    private fun createGamer(name: String, adversary: String, score: Int, scoreAdversary: Int) {
-        response.postValue(GamerDetailsViewState.ShowLoadingState)
+    private fun createGamer(name: String, adversary: String, score: String, scoreAdversary: String) {
+        response.postValue(PlayerDetailsViewState.ShowLoadingState)
         createGamerUseCase(name)
             .subscribeBy(onSuccess = {
-                response.postValue(GamerDetailsViewState.ShowContent(it, gameDetail))
+                response.postValue(PlayerDetailsViewState.ShowContent(it, gameDetail))
                 updateGamerEntity(it)
                 if (adversary.isNotEmpty()) {
-                    createGame(gamerDetail.id, adversary, score, scoreAdversary)
+                    createGame(playerDetail.id, adversary, score, scoreAdversary)
                 }
             }, onError = { e ->
-                response.postValue(GamerDetailsViewState.ShowNetworkError(e))
+                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 }

@@ -16,9 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/gamerDetailsFragment"
-        android:name="com.rosseti.tmgfoosball.ui.detail.GamerDetailsFragment"
+        android:name="com.rosseti.tmgfoosball.ui.detail.PlayerDetailsFragment"
         android:label="@string/foosball_scores"
-        tools:layout="@layout/fragment_gamer_details" >
+        tools:layout="@layout/fragment_player_details" >
         <action
             android:id="@+id/action_gamerDetailsFragment_to_gameDetailsFragment"
             app:destination="@id/gameDetailsFragment" />

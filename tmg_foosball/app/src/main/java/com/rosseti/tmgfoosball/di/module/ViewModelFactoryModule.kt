@@ -2,7 +2,7 @@ package com.rosseti.tmgfoosball.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.rosseti.tmgfoosball.ui.detail.GamerDetailsViewModel
+import com.rosseti.tmgfoosball.ui.detail.PlayerDetailsViewModel
 import com.rosseti.tmgfoosball.ui.list.GameListViewModel
 import dagger.Binds
 import dagger.Module
@@ -21,6 +21,6 @@ abstract class ViewModelFactoryModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(GamerDetailsViewModel::class)
-    abstract fun provideScoreDetailsViewModel(viewModel: GamerDetailsViewModel) : ViewModel
+    @ViewModelKey(PlayerDetailsViewModel::class)
+    abstract fun provideScoreDetailsViewModel(viewModel: PlayerDetailsViewModel) : ViewModel
 }

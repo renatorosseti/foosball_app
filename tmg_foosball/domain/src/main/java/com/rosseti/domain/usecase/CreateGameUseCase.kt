@@ -12,8 +12,8 @@ class CreateGameUseCase(
     operator fun invoke(
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ): Single<GameEntity> =
         gameRepository.createGame(gamerId, adversary, score, scoreAdversary)
             .subscribeOn(schedulers.subscribeOn)

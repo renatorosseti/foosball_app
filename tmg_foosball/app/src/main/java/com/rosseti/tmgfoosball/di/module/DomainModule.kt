@@ -11,19 +11,19 @@ import dagger.Provides
 class DomainModule {
 
     @Provides
-    fun provideGetScoresUseCase(
+    fun provideGetPlayersUseCase(
         schedulerProvider: SchedulerProvider,
         gamerRepository: GamerRepository
-    ) = GetGamersUseCase(schedulerProvider, gamerRepository)
+    ) = GetPlayersUseCase(schedulerProvider, gamerRepository)
 
     @Provides
-    fun provideUpdateScoreUseCase(
+    fun provideUpdatePlayerUseCase(
         schedulerProvider: SchedulerProvider,
         gamerRepository: GamerRepository
     ) = UpdateGamerUseCase(schedulerProvider, gamerRepository)
 
     @Provides
-    fun provideCreateScoreUseCase(
+    fun provideCreatePlayerUseCase(
         schedulerProvider: SchedulerProvider,
         gamerRepository: GamerRepository
     ) = CreateGamerUseCase(schedulerProvider, gamerRepository)
@@ -35,13 +35,13 @@ class DomainModule {
     ) = GetGamesUseCase(schedulerProvider, gameRepository)
 
     @Provides
-    fun provideUpdateScoreUseCase(
+    fun provideUpdateGameUseCase(
         schedulerProvider: SchedulerProvider,
         gameRepository: GameRepository
     ) = UpdateGameUseCase(schedulerProvider, gameRepository)
 
     @Provides
-    fun provideCreateScoreUseCase(
+    fun provideCreateGameUseCase(
         schedulerProvider: SchedulerProvider,
         gameRepository: GameRepository
     ) = CreateGameUseCase(schedulerProvider, gameRepository)

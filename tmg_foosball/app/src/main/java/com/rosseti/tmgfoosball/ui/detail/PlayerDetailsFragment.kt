@@ -12,21 +12,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
-import com.rosseti.tmgfoosball.databinding.FragmentGamerDetailsBinding
+import com.rosseti.tmgfoosball.databinding.FragmentPlayerDetailsBinding
 import com.rosseti.tmgfoosball.ui.adapter.GameViewAdapter
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class GamerDetailsFragment : BaseFragment() {
+class PlayerDetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: GamerDetailsViewModel
+    private lateinit var viewModel: PlayerDetailsViewModel
 
-    lateinit var binding: FragmentGamerDetailsBinding
+    lateinit var binding: FragmentPlayerDetailsBinding
 
     lateinit var adapter: GameViewAdapter
 
@@ -35,7 +35,7 @@ class GamerDetailsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_gamer_details, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_player_details, container, false)
         return binding.root
     }
 
@@ -44,7 +44,7 @@ class GamerDetailsFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
         viewModel =
-            ViewModelProvider(this, this.viewModelFactory).get(GamerDetailsViewModel::class.java)
+            ViewModelProvider(this, this.viewModelFactory).get(PlayerDetailsViewModel::class.java)
         setupAdapter()
         setupScoreEntity()
         setupUiButtons()
@@ -55,17 +55,15 @@ class GamerDetailsFragment : BaseFragment() {
         adapter = GameViewAdapter {
             findNavController().navigate(
                 R.id.action_gamerDetailsFragment_to_gameDetailsFragment,
-                bundleOf("gamer" to viewModel.gamerDetail, "game" to it)
+                bundleOf("gamer" to viewModel.playerDetail, "game" to it)
             )
         }
         binding.list.adapter = adapter
-
-
     }
 
     private fun setupScoreEntity() {
         if (arguments != null) {
-            val gamerEntity = arguments?.getParcelable<GamerEntity>("gamer")
+            val gamerEntity = arguments?.getParcelable<PlayerEntity>("gamer")
             if (gamerEntity != null) {
                 viewModel.updateGamerEntity(gamerEntity)
                 binding.item = gamerEntity
@@ -84,7 +82,7 @@ class GamerDetailsFragment : BaseFragment() {
             newGameButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_gamerDetailsFragment_to_gameDetailsFragment,
-                    bundleOf("gamer" to viewModel.gamerDetail)
+                    bundleOf("gamer" to viewModel.playerDetail)
                 )
             }
         }
@@ -104,14 +102,14 @@ class GamerDetailsFragment : BaseFragment() {
     private fun observeActions() {
         viewModel.response.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is GamerDetailsViewState.ShowLoadingState -> {
+                is PlayerDetailsViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
                 }
-                is GamerDetailsViewState.ShowContent -> {
+                is PlayerDetailsViewState.ShowContent -> {
                     progressDialog.hide()
-                    binding.item = it.gamer
+                    binding.item = it.player
                 }
-                is GamerDetailsViewState.ShowNetworkError -> {
+                is PlayerDetailsViewState.ShowNetworkError -> {
                     progressDialog.hide()
                     dialog.show(
                         context = requireContext(),

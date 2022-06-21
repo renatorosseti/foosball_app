@@ -1,24 +1,22 @@
 package com.rosseti.domain.repository
 
-import androidx.paging.PagingData
 import com.rosseti.domain.entity.GameEntity
-import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface GameRepository {
-    fun fetchGames(): Flowable<PagingData<GameEntity>>
+    fun fetchGames(): Single<List<GameEntity>>
     fun updateGame(
         id: String,
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ): Single<GameEntity>
 
     fun createGame(
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ): Single<GameEntity>
 }

@@ -5,8 +5,6 @@ import com.rosseti.data.api.Api
 import com.rosseti.data.mapper.GameListToDomainMapper
 import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.GameListEntity
-import com.rosseti.domain.entity.GamerEntity
-import com.rosseti.domain.entity.GamerListEntity
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException

@@ -6,13 +6,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.databinding.ItemGamerBinding
 
 class GamerViewAdapter(
-    private val onItemClicked: (GamerEntity) -> Unit
-) : PagingDataAdapter<GamerEntity, GamerViewAdapter.ViewHolder>(COMPARATOR) {
+    private val onItemClicked: (PlayerEntity) -> Unit
+) : PagingDataAdapter<PlayerEntity, GamerViewAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,11 +30,11 @@ class GamerViewAdapter(
 
     inner class ViewHolder(val binding: ItemGamerBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(gamerEntity: GamerEntity) {
+        fun bind(playerEntity: PlayerEntity) {
             binding.apply {
-                binding.item = gamerEntity
+                binding.item = playerEntity
                 scoreItem.setOnClickListener {
-                    onItemClicked(gamerEntity)
+                    onItemClicked(playerEntity)
                 }
                 executePendingBindings()
             }
@@ -42,12 +42,12 @@ class GamerViewAdapter(
         }
     }
 
-    object COMPARATOR : DiffUtil.ItemCallback<GamerEntity>() {
-        override fun areItemsTheSame(oldItem: GamerEntity, newItem: GamerEntity): Boolean {
+    object COMPARATOR : DiffUtil.ItemCallback<PlayerEntity>() {
+        override fun areItemsTheSame(oldItem: PlayerEntity, newItem: PlayerEntity): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: GamerEntity, newItem: GamerEntity): Boolean {
+        override fun areContentsTheSame(oldItem: PlayerEntity, newItem: PlayerEntity): Boolean {
             return oldItem == newItem
         }
     }

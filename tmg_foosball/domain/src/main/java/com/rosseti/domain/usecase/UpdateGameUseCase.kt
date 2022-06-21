@@ -14,8 +14,8 @@ class UpdateGameUseCase(
         id: String,
         gamerId: String,
         adversary: String,
-        score: Int,
-        scoreAdversary: Int
+        score: String,
+        scoreAdversary: String
     ): Single<GameEntity> =
         gameRepository.updateGame(id, gamerId, adversary, score, scoreAdversary)
             .subscribeOn(schedulers.subscribeOn)

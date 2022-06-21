@@ -16,9 +16,10 @@ object GameListToDomainMapper : BaseMapper<GameListEntity, List<GameModel>>() {
         return source.gameList.map {
             GameModel(
                 id = it.id,
+                gamerId = it.gamerId,
                 adversary = it.adversary,
-                score = it.score,
-                scoreAdversary = it.scoreAdversary
+                score = it.score.toInt(),
+                scoreAdversary = it.scoreAdversary.toInt()
             )
         }
     }
@@ -28,9 +29,10 @@ object GameModelToDomainMapper : BaseMapper<GameModel, GameEntity>() {
 
     override fun transformFrom(source: GameEntity): GameModel = GameModel(
         id = source.id,
+        gamerId = source.gamerId,
         adversary = source.adversary,
-        score = source.score,
-        scoreAdversary = source.scoreAdversary
+        score = source.score.toInt(),
+        scoreAdversary = source.scoreAdversary.toInt()
     )
 
     override fun transformTo(source: GameModel): GameEntity =
@@ -38,9 +40,10 @@ object GameModelToDomainMapper : BaseMapper<GameModel, GameEntity>() {
 
     private fun createScoreEntity(it: GameModel) = GameEntity(
         id = it.id,
+        gamerId = it.gamerId,
         adversary = it.adversary,
-        score = it.score,
-        scoreAdversary = it.scoreAdversary,
+        score = it.score.toString(),
+        scoreAdversary = it.scoreAdversary.toString(),
         result = "${it.score} x ${it.scoreAdversary}",
         isWinner = it.score > it.scoreAdversary
     )

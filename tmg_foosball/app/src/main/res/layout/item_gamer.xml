@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.rosseti.domain.entity.GamerEntity" />
+            type="com.rosseti.domain.entity.PlayerEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

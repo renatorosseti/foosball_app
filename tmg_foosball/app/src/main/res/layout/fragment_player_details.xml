@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.rosseti.domain.entity.GamerEntity" />
+            type="com.rosseti.domain.entity.PlayerEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +57,7 @@
                     android:hint="@string/games">
 
                     <EditText
-                        android:id="@+id/edit_matches"
+                        android:id="@+id/edit_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
@@ -79,7 +79,7 @@
                     android:hint="@string/scores">
 
                     <EditText
-                        android:id="@+id/edit_scores"
+                        android:id="@+id/edit_adversary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"

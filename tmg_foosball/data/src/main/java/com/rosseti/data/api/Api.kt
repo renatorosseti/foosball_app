@@ -10,7 +10,7 @@ import javax.inject.Singleton
 interface Api {
 
     @GET("/scores")
-    fun fetchScores(): Single<List<GamerModel>>
+    fun fetchPlayers(): Single<List<GamerModel>>
 
     @FormUrlEncoded
     @PUT(value = "scores/{scoreId}")
@@ -34,8 +34,8 @@ interface Api {
         @Path("gameId") gameId: String,
         @Field("gamer_id") gamerId: String,
         @Field("adversary") adversary: String,
-        @Field("score") score: Int,
-        @Field("score_adversary") scoreAdversary: Int
+        @Field("score") score: String,
+        @Field("score_adversary") scoreAdversary: String
     ): Single<GameModel>
 
     @FormUrlEncoded
@@ -43,7 +43,7 @@ interface Api {
     fun createGame(
         @Field("gamer_id") gamerId: String,
         @Field("adversary") adversary: String,
-        @Field("score") score: Int,
-        @Field("score_adversary") scoreAdversary: Int
+        @Field("score") score: String,
+        @Field("score_adversary") scoreAdversary: String
     ): Single<GameModel>
 }

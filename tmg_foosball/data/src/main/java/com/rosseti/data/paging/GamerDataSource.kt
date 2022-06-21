@@ -3,7 +3,7 @@ package com.rosseti.data.paging
 import androidx.paging.rxjava2.RxPagingSource
 import com.rosseti.data.api.Api
 import com.rosseti.data.mapper.GamerListToDomainMapper
-import com.rosseti.domain.entity.GamerEntity
+import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.entity.GamerListEntity
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -11,12 +11,12 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.io.InvalidObjectException
 
-class GamerDataSource(val api: Api) : RxPagingSource<Int, GamerEntity>() {
+class GamerDataSource(val api: Api) : RxPagingSource<Int, PlayerEntity>() {
 
-    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, GamerEntity>> {
+    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, PlayerEntity>> {
         val page = params.key ?: 1
         return try {
-            val response = api.fetchScores()
+            val response = api.fetchPlayers()
                 .subscribeOn(Schedulers.io())
             response.map {
                 val mapResponse = GamerListToDomainMapper.transformFrom(it)
@@ -37,10 +37,10 @@ class GamerDataSource(val api: Api) : RxPagingSource<Int, GamerEntity>() {
 
     }
 
-    private fun toLoadResult(data: GamerListEntity, position: Int): LoadResult<Int, GamerEntity> {
+    private fun toLoadResult(data: GamerListEntity, position: Int): LoadResult<Int, PlayerEntity> {
 
         return LoadResult.Page(
-            data = data.gamerList,
+            data = data.playerList,
             prevKey = if (position == 1) null else position - 1,
             nextKey = if (position == data.totalPages) null else position + 1
         )

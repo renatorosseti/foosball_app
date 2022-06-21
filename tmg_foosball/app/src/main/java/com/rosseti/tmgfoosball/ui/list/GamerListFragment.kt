@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
 import com.rosseti.tmgfoosball.databinding.FragmentGamerListBinding
@@ -42,7 +43,7 @@ class GamerListFragment : BaseFragment() {
         setupAdapter()
         setupButton()
         observeActions()
-        viewModel.getScoreList()
+        viewModel.getPlayerList()
     }
 
     private fun setupAdapter() {
@@ -70,7 +71,7 @@ class GamerListFragment : BaseFragment() {
                     progressDialog.show(requireContext())
                 }
                 is GamerListViewState.ShowContentFeed -> {
-                    adapter.submitData(lifecycle, it.scores)
+                    adapter.submitData(lifecycle, PagingData.from(it.players))
                     adapter.addLoadStateListener { loadState ->
                         if (loadState.source.append == LoadState.NotLoading(endOfPaginationReached = true)) {
                             progressDialog.hide()
