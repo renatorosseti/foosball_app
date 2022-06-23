@@ -14,15 +14,17 @@ class UpdateGameUseCase(
         id: String,
         gamerId: String,
         adversaryId: String,
-        adversary: String,
+        adversaryName: String,
+        playerName: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
         gameRepository.updateGame(
             id = id,
-            gamerId = gamerId,
+            playerId = gamerId,
             adversaryId = adversaryId,
-            adversary = adversary,
+            playerName = playerName,
+            adversaryName = adversaryName,
             score = score,
             scoreAdversary = scoreAdversary
         )

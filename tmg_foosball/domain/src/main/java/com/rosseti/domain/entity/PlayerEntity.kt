@@ -9,5 +9,6 @@ data class PlayerEntity(
     val name: String = "",
     val matches: String = "",
     val scores: String = "",
-    val games: List<GameEntity> = listOf()
+    val games: List<GameEntity> = listOf(),
+    val adversaries: HashMap<String,String> = hashMapOf()
 ) : Parcelable

@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="item"
+            name="player"
             type="com.rosseti.domain.entity.PlayerEntity" />
     </data>
 
@@ -26,70 +26,62 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_name"
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:hint="@string/player_name">
+                    android:layout_marginStart="@dimen/dimen_32dp"
+                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:layout_marginEnd="@dimen/dimen_32dp"
+                    android:text="@string/player_name"
+                    android:textSize="@dimen/dimen_12sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:maxLines="1"
-                        android:text="@{item.name}" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/player_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_32dp"
+                    android:layout_marginEnd="@dimen/dimen_32dp"
+                    android:text="@{player.name}"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="@dimen/dimen_20sp" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_32dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:layout_marginEnd="@dimen/dimen_32dp"
+                    android:text="@string/games"
+                    android:textSize="@dimen/dimen_12sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/input_layout_matches"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginStart="@dimen/dimen_32dp"
+                    android:layout_marginEnd="@dimen/dimen_32dp"
+                    android:text="@{player.matches}"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="@dimen/dimen_20sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_32dp"
                     android:layout_marginTop="@dimen/dimen_8dp"
-                    android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:background="@color/white"
-                    android:hint="@string/games">
+                    android:layout_marginEnd="@dimen/dimen_32dp"
+                    android:text="@string/scores"
+                    android:textSize="@dimen/dimen_12sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_score"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:text="@{item.matches}" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/input_layout_scores"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginTop="@dimen/dimen_8dp"
-                    android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:hint="@string/scores">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_player"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:text="@{item.scores}" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginStart="@dimen/dimen_32dp"
+                    android:layout_marginEnd="@dimen/dimen_32dp"
+                    android:text="@{player.scores}"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="@dimen/dimen_20sp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

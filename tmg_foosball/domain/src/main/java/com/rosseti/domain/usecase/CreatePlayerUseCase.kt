@@ -5,7 +5,7 @@ import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.repository.GamerRepository
 import io.reactivex.Single
 
-class CreateGamerUseCase(
+class CreatePlayerUseCase(
     private val schedulers: SchedulerProvider,
     private val gamerRepository: GamerRepository
 ) {

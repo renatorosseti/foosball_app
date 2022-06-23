@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import com.rosseti.domain.entity.PlayerEntity
+import com.rosseti.domain.extensions.getAdversaries
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
 import com.rosseti.tmgfoosball.databinding.FragmentPlayerListBinding
@@ -39,7 +40,8 @@ class PlayerListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
-        viewModel = ViewModelProvider(this, this.viewModelFactory).get(PlayerListViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, this.viewModelFactory).get(PlayerListViewModel::class.java)
     }
 
     override fun onResume() {
@@ -61,15 +63,23 @@ class PlayerListFragment : BaseFragment() {
     }
 
     private fun setupButton() {
+        val playerEntity = PlayerEntity()
         binding.newPlayer.setOnClickListener {
             findNavController().navigate(
-                R.id.action_PlayerListFragment_to_gameDetailsFragment
+                R.id.action_PlayerListFragment_to_gameDetailsFragment,
+                bundleOf(
+                    "player" to playerEntity.copy(
+                        adversaries = playerEntity.getAdversaries(
+                            viewModel.playerList
+                        )
+                    )
+                )
             )
         }
     }
 
     private fun observeActions() {
-        viewModel.response.observe(viewLifecycleOwner, Observer {
+        viewModel.response.observe(viewLifecycleOwner) {
             when (it) {
                 is PlayerListViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
@@ -90,6 +100,6 @@ class PlayerListFragment : BaseFragment() {
                     )
                 }
             }
-        })
+        }
     }
 }

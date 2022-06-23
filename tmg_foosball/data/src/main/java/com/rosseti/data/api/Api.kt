@@ -15,7 +15,7 @@ interface Api {
     @FormUrlEncoded
     @PUT(value = "scores/{id}")
     fun updatePlayer(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Field("name") name: String
     ): Single<PlayerModel>
 
@@ -34,6 +34,7 @@ interface Api {
         @Path("id") id: String,
         @Field("gamer_id") gamerId: String,
         @Field("adversary_id") adversaryId: String,
+        @Field("player_name") playerName: String,
         @Field("adversary") adversary: String,
         @Field("score") score: String,
         @Field("score_adversary") scoreAdversary: String
@@ -44,6 +45,7 @@ interface Api {
     fun createGame(
         @Field("gamer_id") gamerId: String,
         @Field("adversary_id") adversaryId: String,
+        @Field("player_name") playerName: String,
         @Field("adversary") adversary: String,
         @Field("score") score: String,
         @Field("score_adversary") scoreAdversary: String

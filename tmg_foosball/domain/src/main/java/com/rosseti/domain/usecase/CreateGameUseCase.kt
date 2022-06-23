@@ -12,11 +12,12 @@ class CreateGameUseCase(
     operator fun invoke(
         gamerId: String,
         adversaryId: String,
+        playerName: String,
         adversary: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
-        gameRepository.createGame(gamerId, adversaryId, adversary, score, scoreAdversary)
+        gameRepository.createGame(gamerId, adversaryId, playerName, adversary, score, scoreAdversary)
             .subscribeOn(schedulers.subscribeOn)
             .observeOn(schedulers.observeOn)
 }

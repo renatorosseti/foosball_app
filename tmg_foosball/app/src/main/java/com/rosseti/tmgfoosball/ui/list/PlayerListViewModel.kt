@@ -17,6 +17,8 @@ class PlayerListViewModel @Inject constructor(
 
     val response = MutableLiveData<PlayerListViewState>()
 
+    var playerList = listOf<PlayerEntity>()
+
     fun getPlayerList() {
         response.postValue(PlayerListViewState.ShowLoadingState)
         val result = getPlayersUseCase()
@@ -30,8 +32,9 @@ class PlayerListViewModel @Inject constructor(
     private fun updatePlayerGames(players: List<PlayerEntity>) {
         response.postValue(PlayerListViewState.ShowLoadingState)
         val result = getGamesUseCase(players)
-        result.subscribeBy(onSuccess = { games ->
-            response.postValue(PlayerListViewState.ShowContentFeed(games))
+        result.subscribeBy(onSuccess = { players ->
+            playerList = players
+            response.postValue(PlayerListViewState.ShowContentFeed(players))
         }, onError = { e ->
             response.postValue(PlayerListViewState.ShowNetworkError(e))
         }).addTo(compositeDisposable)

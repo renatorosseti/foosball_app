@@ -5,6 +5,6 @@ import io.reactivex.Single
 
 interface GamerRepository {
     fun fetchPlayers(): Single<List<PlayerEntity>>
-    fun updatePlayer(id: Int, name: String): Single<PlayerEntity>
+    fun updatePlayer(id: String, name: String): Single<PlayerEntity>
     fun createPlayer(name: String): Single<PlayerEntity>
 }

@@ -20,13 +20,13 @@ class DomainModule {
     fun provideUpdatePlayerUseCase(
         schedulerProvider: SchedulerProvider,
         gamerRepository: GamerRepository
-    ) = UpdateGamerUseCase(schedulerProvider, gamerRepository)
+    ) = UpdatePlayerUseCase(schedulerProvider, gamerRepository)
 
     @Provides
     fun provideCreatePlayerUseCase(
         schedulerProvider: SchedulerProvider,
         gamerRepository: GamerRepository
-    ) = CreateGamerUseCase(schedulerProvider, gamerRepository)
+    ) = CreatePlayerUseCase(schedulerProvider, gamerRepository)
 
     @Provides
     fun provideGetGamesUseCase(

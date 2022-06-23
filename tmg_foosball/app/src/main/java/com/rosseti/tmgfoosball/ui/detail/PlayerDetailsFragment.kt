@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
+import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
@@ -56,7 +57,7 @@ class PlayerDetailsFragment : BaseFragment() {
 
     private fun setupPlayerEntity(): PlayerEntity {
         val playerEntity = arguments?.getParcelable("player") ?: PlayerEntity()
-        binding.item = playerEntity
+        binding.player = playerEntity
         return playerEntity
     }
 
@@ -74,7 +75,6 @@ class PlayerDetailsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                hideSoftKeyboard(binding.editName.windowToken)
                 findNavController().popBackStack()
                 true
             }
@@ -86,6 +86,7 @@ class PlayerDetailsFragment : BaseFragment() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<PlayerEntity>("player")
             ?.observe(viewLifecycleOwner) {
                 adapter.submitData(lifecycle, PagingData.from(it.games))
+                binding.playerName.text = it.name ?: ""
             }
     }
 }

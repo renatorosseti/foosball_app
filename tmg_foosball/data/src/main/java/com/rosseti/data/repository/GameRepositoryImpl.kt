@@ -18,17 +18,19 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
 
     override fun updateGame(
         id: String,
-        gamerId: String,
+        playerId: String,
         adversaryId: String,
-        adversary: String,
+        playerName: String,
+        adversaryName: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
         api.updateGame(
             id = id,
-            gamerId = gamerId,
+            gamerId = playerId,
             adversaryId = adversaryId,
-            adversary = adversary,
+            playerName = playerName,
+            adversary = adversaryName,
             score = score,
             scoreAdversary = scoreAdversary
         ).map {
@@ -36,15 +38,17 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
         }
 
     override fun createGame(
-        gamerId: String,
+        playerId: String,
         adversaryId: String,
+        playerName: String,
         adversary: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
         api.createGame(
-            gamerId = gamerId,
+            gamerId = playerId,
             adversaryId = adversaryId,
+            playerName = playerName,
             adversary = adversary,
             score = score,
             scoreAdversary = scoreAdversary

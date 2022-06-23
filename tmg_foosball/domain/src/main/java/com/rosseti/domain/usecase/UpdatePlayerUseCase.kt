@@ -5,13 +5,13 @@ import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.repository.GamerRepository
 import io.reactivex.Single
 
-class UpdateGamerUseCase(
+class UpdatePlayerUseCase(
     private val schedulers: SchedulerProvider,
     private val gamerRepository: GamerRepository
 ) {
 
     operator fun invoke(
-        id: Int,
+        id: String,
         name: String
     ): Single<PlayerEntity> =
         gamerRepository.updatePlayer(id, name)

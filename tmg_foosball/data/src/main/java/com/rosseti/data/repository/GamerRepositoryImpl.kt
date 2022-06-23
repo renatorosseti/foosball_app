@@ -11,10 +11,10 @@ class GamerRepositoryImpl(private val api: Api) : GamerRepository {
         api.fetchPlayers().map { it.map { player -> PlayerEntity(id = player.id, name = player.name) } }
 
     override fun updatePlayer(
-        scoreId: Int,
+        id: String,
         name: String
     ): Single<PlayerEntity> =
-        api.updatePlayer(scoreId, name)
+        api.updatePlayer(id, name)
             .map {
                 createGamerEntity(it)
             }

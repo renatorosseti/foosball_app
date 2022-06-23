@@ -49,7 +49,7 @@
     </style>
 
     <style name="TextInputStyle" >
-        <item name="android:background">@color/white</item>
+        <item name="android:background">?attr/colorOnPrimary</item>
         <item name="android:maxLines">1</item>
     </style>
 

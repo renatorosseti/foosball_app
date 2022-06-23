@@ -2,9 +2,9 @@ package com.rosseti.tmgfoosball.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.rosseti.domain.entity.PlayerEntity
-import com.rosseti.domain.usecase.CreateGamerUseCase
+import com.rosseti.domain.usecase.CreatePlayerUseCase
 import com.rosseti.domain.usecase.GetScoreDetailsUseCase
-import com.rosseti.domain.usecase.UpdateGamerUseCase
+import com.rosseti.domain.usecase.UpdatePlayerUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -22,10 +22,10 @@ class GameDetailsViewModelTest {
     lateinit var getScoreDetailsUseCase: GetScoreDetailsUseCase
 
     @MockK
-    lateinit var updateGamerUseCase: UpdateGamerUseCase
+    lateinit var updatePlayerUseCase: UpdatePlayerUseCase
 
     @MockK
-    lateinit var createGamerUseCase: CreateGamerUseCase
+    lateinit var createPlayerUseCase: CreatePlayerUseCase
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -35,7 +35,7 @@ class GameDetailsViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = GameDetailsViewModel(getScoreDetailsUseCase, updateGamerUseCase, createGamerUseCase)
+        viewModel = GameDetailsViewModel(getScoreDetailsUseCase, updatePlayerUseCase, createPlayerUseCase)
     }
 
     @Test
@@ -46,7 +46,7 @@ class GameDetailsViewModelTest {
         viewModel.playerDetail.value = domainData
 
         val domainDataUpdated = PlayerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
-        every{ updateGamerUseCase(scoreId,"test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
+        every{ updatePlayerUseCase(scoreId,"test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
 
         //when
         viewModel.requestNewGame("test", games = "10", scores = "10")
@@ -65,7 +65,7 @@ class GameDetailsViewModelTest {
         viewModel.playerDetail.value = domainData
 
         val domainDataUpdated = PlayerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
-        every{ createGamerUseCase("test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
+        every{ createPlayerUseCase("test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
 
         //when
         viewModel.requestNewGame("test", games = "10", scores = "10")
@@ -84,7 +84,7 @@ class GameDetailsViewModelTest {
         //Given
         val error = RuntimeException("Unknown error")
 
-        every{ createGamerUseCase("test", matches = "10", scores = "10") } returns Single.error(error)
+        every{ createPlayerUseCase("test", matches = "10", scores = "10") } returns Single.error(error)
 
         //when
         viewModel.requestNewGame("test", games = "10", scores = "10")

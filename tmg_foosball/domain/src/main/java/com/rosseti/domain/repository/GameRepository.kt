@@ -8,16 +8,18 @@ interface GameRepository {
 
     fun updateGame(
         id: String,
-        gamerId: String,
+        playerId: String,
         adversaryId: String,
-        adversary: String,
+        playerName: String,
+        adversaryName: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity>
 
     fun createGame(
-        gamerId: String,
+        playerId: String,
         adversaryId: String,
+        playerName: String,
         adversary: String,
         score: String,
         scoreAdversary: String

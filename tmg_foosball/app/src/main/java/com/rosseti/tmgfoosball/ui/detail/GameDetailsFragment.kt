@@ -60,7 +60,7 @@ class GameDetailsFragment : BaseFragment() {
 
     private fun setupUi() {
         binding.apply {
-            val adversaryNames = viewModel.gameDetail.adversaries.toList().map { it.second }
+            val adversaryNames = viewModel.playerDetail.adversaries.toList().map { it.second }
 
             val arrayAdapter = ArrayAdapter(
                 requireContext(),
@@ -76,10 +76,10 @@ class GameDetailsFragment : BaseFragment() {
 
             saveButton.setOnClickListener {
                 val advId =
-                    viewModel.gameDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
+                    viewModel.playerDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
                 viewModel.requestNewGame(
-                    name = editPlayer.text.toString(),
-                    adversary = spnAdversaryName.selectedItem.toString(),
+                    playerName = editPlayer.text.toString(),
+                    adversaryName = spnAdversaryName.selectedItem.toString(),
                     score = editScore.text.toString(),
                     scoreAdversary = editAdvScores.text.toString(),
                     adversaryId = advId
@@ -90,16 +90,17 @@ class GameDetailsFragment : BaseFragment() {
 
     private fun setupEntities() {
         if (arguments != null) {
-            val playerEntity = arguments?.getParcelable<PlayerEntity>("player")
-            val gameEntity = arguments?.getParcelable<GameEntity>("game")
-            if (playerEntity != null) {
-                binding.player = playerEntity
-                viewModel.updatePlayerEntity(playerEntity)
+            val playerEntity = arguments?.getParcelable("player") ?: PlayerEntity()
+            val gameEntity = arguments?.getParcelable("game") ?: GameEntity()
+
+            if (playerEntity.id.isNotEmpty()) {
+                binding.editPlayer.isEnabled = false
             }
-            if (gameEntity != null) {
-                binding.game = gameEntity
-                viewModel.updateGameEntity(gameEntity)
-            }
+            binding.player = playerEntity
+            viewModel.updatePlayerEntity(playerEntity)
+
+            binding.game = gameEntity
+            viewModel.updateGameEntity(gameEntity)
         }
     }
 
