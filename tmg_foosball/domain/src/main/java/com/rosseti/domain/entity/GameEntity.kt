@@ -12,8 +12,7 @@ data class GameEntity(
     val _playerName: String = "",
     val _score: String = "",
     val _scoreAdversary: String = "",
-    val isPlayerAdversary: Boolean = false,
-    val adversaries: HashMap<String, String> = HashMap()
+    val isPlayerAdversary: Boolean = false
 ) : Parcelable {
     val adversary
     get() = if (isPlayerAdversary) _playerName else _adversary

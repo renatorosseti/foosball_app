@@ -1,10 +1,9 @@
 package com.rosseti.tmgfoosball.ui.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
-import com.rosseti.domain.usecase.CreatePlayerUseCase
-import com.rosseti.domain.usecase.GetScoreDetailsUseCase
-import com.rosseti.domain.usecase.UpdatePlayerUseCase
+import com.rosseti.domain.usecase.*
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -19,77 +18,111 @@ class GameDetailsViewModelTest {
     private lateinit var viewModel: GameDetailsViewModel
 
     @MockK
-    lateinit var getScoreDetailsUseCase: GetScoreDetailsUseCase
+    lateinit var createPlayerUseCase: CreatePlayerUseCase
+
+    @MockK
+    lateinit var updateGameUseCase: UpdateGameUseCase
+
+    @MockK
+    lateinit var createGameUseCase: CreateGameUseCase
 
     @MockK
     lateinit var updatePlayerUseCase: UpdatePlayerUseCase
 
-    @MockK
-    lateinit var createPlayerUseCase: CreatePlayerUseCase
-
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    private val scoreId = 100
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = GameDetailsViewModel(getScoreDetailsUseCase, updatePlayerUseCase, createPlayerUseCase)
+        viewModel = GameDetailsViewModel(
+            updatePlayerUseCase,
+            createPlayerUseCase,
+            updateGameUseCase,
+            createGameUseCase
+        )
     }
 
     @Test
-    fun `Given score detail, when call the api, should update the score detail object`() {
-
+    fun `Given player detail, when call the api, should update the player detail object`() {
         //given
-        val domainData = PlayerEntity(id = scoreId, name = "test", matches = "1", scores = "1")
-        viewModel.playerDetail.value = domainData
-
-        val domainDataUpdated = PlayerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
-        every{ updatePlayerUseCase(scoreId,"test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
+        val playerId = "1"
+        val playerName = "Test"
+        val adversaryId = "Test"
+        val adversaryName = "Test"
+        val score = "Test"
+        val scoreAdversary = "Test"
+        val game = GameEntity(id = playerId)
+        val domainData = PlayerEntity(id = playerId, name = playerName, games = listOf(game))
+        viewModel.playerDetail = domainData
+        every {
+            createGameUseCase(
+                playerId,
+                adversaryId,
+                playerName,
+                adversaryName,
+                score,
+                scoreAdversary
+            )
+        } returns Single.just(game)
 
         //when
-        viewModel.requestNewGame("test", games = "10", scores = "10")
+        viewModel.createGame(
+            playerId,
+            adversaryId,
+            playerName,
+            adversaryName,
+            score,
+            scoreAdversary
+        )
 
         //to check the one value for testing
         Assert.assertNotNull(viewModel.playerDetail)
-
-        Assert.assertEquals(PlayerDetailsViewState.ShowContent(domainDataUpdated), viewModel.response.value)
+        Assert.assertEquals(
+            PlayerDetailsViewState.ShowContent(viewModel.playerDetail, game),
+            viewModel.response.value
+        )
     }
 
     @Test
-    fun `Given score detail null, when call the api, should create the score detail object`() {
-
-        //given
-        val domainData = null
-        viewModel.playerDetail.value = domainData
-
-        val domainDataUpdated = PlayerEntity(id = scoreId, name = "test", matches = "10", scores = "10")
-        every{ createPlayerUseCase("test", matches = "10", scores = "10") } returns Single.just(domainDataUpdated)
-
-        //when
-        viewModel.requestNewGame("test", games = "10", scores = "10")
-
-        //to check the one value for testing
-        Assert.assertNotNull(viewModel.playerDetail)
-
-        Assert.assertEquals(domainDataUpdated, viewModel.playerDetail.value)
-        Assert.assertEquals(PlayerDetailsViewState.ShowContent(domainDataUpdated), viewModel.response.value)
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun `Given error emission, when load repo score details with error, should update error`() {
-
+    fun `Given error emission, when load create player with error, should update error`() {
         //Given
+        val playerId = "1"
+        val playerName = "Test"
+        val adversaryId = "Test"
+        val adversaryName = "Test"
+        val score = "Test"
+        val scoreAdversary = "Test"
         val error = RuntimeException("Unknown error")
 
-        every{ createPlayerUseCase("test", matches = "10", scores = "10") } returns Single.error(error)
+        every {
+            createGameUseCase(
+                playerId,
+                adversaryId,
+                playerName,
+                adversaryName,
+                score,
+                scoreAdversary
+            )
+        } returns Single.error(
+            error
+        )
 
         //when
-        viewModel.requestNewGame("test", games = "10", scores = "10")
+        viewModel.createGame(
+            playerId,
+            adversaryId,
+            playerName,
+            adversaryName,
+            score,
+            scoreAdversary
+        )
 
         //should
-        Assert.assertEquals(viewModel.response.value, PlayerDetailsViewState.ShowNetworkError(error))
+        Assert.assertEquals(
+            viewModel.response.value,
+            PlayerDetailsViewState.ShowNetworkError(error)
+        )
     }
 }

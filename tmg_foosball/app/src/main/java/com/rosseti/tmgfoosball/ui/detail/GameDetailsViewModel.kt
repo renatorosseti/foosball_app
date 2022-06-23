@@ -96,8 +96,8 @@ class GameDetailsViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    private fun createGame(
-        gamerId: String,
+    fun createGame(
+        playerId: String,
         adversaryId: String,
         playerName: String,
         adversary: String,
@@ -105,7 +105,7 @@ class GameDetailsViewModel @Inject constructor(
         scoreAdversary: String
     ) {
         response.postValue(PlayerDetailsViewState.ShowLoadingState)
-        createGameUseCase(gamerId, adversaryId, playerName, adversary, score, scoreAdversary)
+        createGameUseCase(playerId, adversaryId, playerName, adversary, score, scoreAdversary)
             .subscribeBy(onSuccess = {
                 response.postValue(PlayerDetailsViewState.ShowContent(playerDetail, it))
                 updateGameEntity(it)
