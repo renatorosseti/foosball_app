@@ -1,7 +1,7 @@
 package com.rosseti.data.repository
 
 import com.rosseti.data.api.Api
-import com.rosseti.data.model.GamerModel
+import com.rosseti.data.model.PlayerModel
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.repository.GamerRepository
 import io.reactivex.Single
@@ -14,7 +14,7 @@ class GamerRepositoryImpl(private val api: Api) : GamerRepository {
         scoreId: Int,
         name: String
     ): Single<PlayerEntity> =
-        api.updateScore(scoreId, name)
+        api.updatePlayer(scoreId, name)
             .map {
                 createGamerEntity(it)
             }
@@ -22,12 +22,12 @@ class GamerRepositoryImpl(private val api: Api) : GamerRepository {
     override fun createPlayer(
         name: String
     ): Single<PlayerEntity> =
-        api.createScore(name)
+        api.createPlayer(name)
             .map {
                 createGamerEntity(it)
             }
 
-    private fun createGamerEntity(it: GamerModel) = PlayerEntity(
+    private fun createGamerEntity(it: PlayerModel) = PlayerEntity(
         id = it.id,
         name = it.name
     )

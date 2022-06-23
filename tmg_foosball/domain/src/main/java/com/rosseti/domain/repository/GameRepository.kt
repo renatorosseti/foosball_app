@@ -8,6 +8,7 @@ interface GameRepository {
     fun updateGame(
         id: String,
         gamerId: String,
+        adversaryId: String,
         adversary: String,
         score: String,
         scoreAdversary: String
@@ -15,6 +16,7 @@ interface GameRepository {
 
     fun createGame(
         gamerId: String,
+        adversaryId: String,
         adversary: String,
         score: String,
         scoreAdversary: String

@@ -12,13 +12,7 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
         return api.fetchGames()
             .map {
                 it.map { model ->
-                    GameEntity(
-                        id = model.id,
-                        gamerId = model.gamerId,
-                        adversary = model.adversary,
-                        score = model.score.toString(),
-                        scoreAdversary = model.scoreAdversary.toString()
-                    )
+                    createGameEntity(model)
                 }
             }
             .subscribeOn(Schedulers.io())
@@ -27,42 +21,47 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
     override fun updateGame(
         id: String,
         gamerId: String,
+        adversaryId: String,
         adversary: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
         api.updateGame(
-            id,
-            gamerId,
-            adversary,
-            score,
-            scoreAdversary
-        )
-            .map {
-                createGameEntity(it)
-            }
+            id = id,
+            gamerId = gamerId,
+            adversaryId = adversaryId,
+            adversary = adversary,
+            score = score,
+            scoreAdversary = scoreAdversary
+        ).map {
+            createGameEntity(it)
+        }
 
     override fun createGame(
         gamerId: String,
+        adversaryId: String,
         adversary: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
         api.createGame(
-            gamerId,
-            adversary,
-            score,
-            scoreAdversary
-        )
-            .map {
-                createGameEntity(it)
-            }
+            gamerId = gamerId,
+            adversaryId = adversaryId,
+            adversary = adversary,
+            score = score,
+            scoreAdversary = scoreAdversary
+        ).map {
+            createGameEntity(it)
+        }
 
     private fun createGameEntity(it: GameModel) = GameEntity(
         id = it.id,
+        playerId = it.playerId,
         adversary = it.adversary,
-        score = it.score.toString(),
-        scoreAdversary = it.scoreAdversary.toString(),
+        adversaryId = it.adversaryId,
+        playerName = it.playerName,
+        score = it.score,
+        scoreAdversary = it.scoreAdversary,
         result = "${it.score} x ${it.scoreAdversary}",
         isWinner = it.score > it.scoreAdversary
     )

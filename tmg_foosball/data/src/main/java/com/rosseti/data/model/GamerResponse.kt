@@ -1,11 +1,8 @@
 package com.rosseti.data.model
 
-import com.rosseti.domain.entity.PlayerEntity
 import com.squareup.moshi.Json
 
-class GamerResponse : ArrayList<GamerModel>()
-
-data class GamerModel(
+data class PlayerModel(
     @Json(name = "id")
     val id: String,
     @Json(name = "name")
@@ -16,19 +13,16 @@ data class GameModel(
     @Json(name = "id")
     val id: String,
     @Json(name = "gamer_id")
-    val gamerId: String,
+    val playerId: String,
+    @Json(name = "adversary_id")
+    val adversaryId: String,
     @Json(name = "adversary")
     val adversary: String,
+    @Json(name = "player_name")
+    val playerName: String,
     @Json(name = "score")
-    val score: Int,
+    val score: String,
     @Json(name = "score_adversary")
-    val scoreAdversary: Int
+    val scoreAdversary: String
 )
-
-fun GamerModel.mapToDomain(): PlayerEntity =
-    PlayerEntity(
-        id = id,
-        name = name
-    )
-
 

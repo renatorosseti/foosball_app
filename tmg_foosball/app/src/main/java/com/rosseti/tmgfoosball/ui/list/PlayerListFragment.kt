@@ -9,37 +9,36 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
-import com.rosseti.tmgfoosball.databinding.FragmentGamerListBinding
-import com.rosseti.tmgfoosball.ui.adapter.GamerViewAdapter
+import com.rosseti.tmgfoosball.databinding.FragmentPlayerListBinding
+import com.rosseti.tmgfoosball.ui.adapter.PlayerViewAdapter
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class GamerListFragment : BaseFragment() {
+class PlayerListFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: GameListViewModel
+    private lateinit var viewModel: PlayerListViewModel
 
-    lateinit var binding: FragmentGamerListBinding
+    lateinit var binding: FragmentPlayerListBinding
 
-    lateinit var adapter: GamerViewAdapter
+    lateinit var adapter: PlayerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_gamer_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_player_list, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
-        viewModel = ViewModelProvider(this, this.viewModelFactory).get(GameListViewModel::class.java)
+        viewModel = ViewModelProvider(this, this.viewModelFactory).get(PlayerListViewModel::class.java)
         setupAdapter()
         setupButton()
         observeActions()
@@ -47,19 +46,19 @@ class GamerListFragment : BaseFragment() {
     }
 
     private fun setupAdapter() {
-        adapter = GamerViewAdapter {
+        adapter = PlayerViewAdapter {
             findNavController().navigate(
-                R.id.action_gamerListFragment_to_gamerDetailsFragment,
-                bundleOf("gamer" to it)
+                R.id.action_playerListFragment_to_playerDetailsFragment,
+                bundleOf("player" to it)
             )
         }
         binding.list.adapter = adapter
     }
 
     private fun setupButton() {
-        binding.newScore.setOnClickListener {
+        binding.newPlayer.setOnClickListener {
             findNavController().navigate(
-                R.id.action_gamerListFragment_to_gamerDetailsFragment
+                R.id.action_PlayerListFragment_to_gameDetailsFragment
             )
         }
     }
@@ -67,18 +66,14 @@ class GamerListFragment : BaseFragment() {
     private fun observeActions() {
         viewModel.response.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is GamerListViewState.ShowLoadingState -> {
+                is PlayerListViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
                 }
-                is GamerListViewState.ShowContentFeed -> {
+                is PlayerListViewState.ShowContentFeed -> {
                     adapter.submitData(lifecycle, PagingData.from(it.players))
-                    adapter.addLoadStateListener { loadState ->
-                        if (loadState.source.append == LoadState.NotLoading(endOfPaginationReached = true)) {
-                            progressDialog.hide()
-                        }
-                    }
+                    progressDialog.hide()
                 }
-                is GamerListViewState.ShowNetworkError -> {
+                is PlayerListViewState.ShowNetworkError -> {
                     progressDialog.hide()
                     dialog.show(
                         context = requireContext(),

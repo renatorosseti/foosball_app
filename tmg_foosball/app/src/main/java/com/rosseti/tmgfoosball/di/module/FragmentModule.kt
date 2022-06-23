@@ -2,7 +2,7 @@ package com.rosseti.tmgfoosball.di.module
 
 import com.rosseti.tmgfoosball.ui.detail.PlayerDetailsFragment
 import com.rosseti.tmgfoosball.ui.detail.GameDetailsFragment
-import com.rosseti.tmgfoosball.ui.list.GamerListFragment
+import com.rosseti.tmgfoosball.ui.list.PlayerListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun scoreListFragment() : GamerListFragment
+    abstract fun scoreListFragment() : PlayerListFragment
 
     @ContributesAndroidInjector
     abstract fun scoreDetailsFragment() : PlayerDetailsFragment

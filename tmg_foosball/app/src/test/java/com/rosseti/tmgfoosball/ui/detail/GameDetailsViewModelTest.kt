@@ -15,8 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class PlayerDetailsViewModelTest {
-    private lateinit var viewModel: PlayerDetailsViewModel
+class GameDetailsViewModelTest {
+    private lateinit var viewModel: GameDetailsViewModel
 
     @MockK
     lateinit var getScoreDetailsUseCase: GetScoreDetailsUseCase
@@ -35,7 +35,7 @@ class PlayerDetailsViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        viewModel = PlayerDetailsViewModel(getScoreDetailsUseCase, updateGamerUseCase, createGamerUseCase)
+        viewModel = GameDetailsViewModel(getScoreDetailsUseCase, updateGamerUseCase, createGamerUseCase)
     }
 
     @Test

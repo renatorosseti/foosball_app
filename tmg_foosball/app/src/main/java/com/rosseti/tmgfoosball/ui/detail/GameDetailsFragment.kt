@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +22,7 @@ class GameDetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: PlayerDetailsViewModel
+    private lateinit var viewModel: GameDetailsViewModel
 
     lateinit var binding: FragmentGameDetailBinding
 
@@ -37,9 +38,10 @@ class GameDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this, this.viewModelFactory).get(PlayerDetailsViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, this.viewModelFactory).get(GameDetailsViewModel::class.java)
         setupEntities()
-        setupButton()
+        setupUi()
         observeActions()
     }
 
@@ -53,17 +55,37 @@ class GameDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupButton() {
+    private fun setupUi() {
         binding.apply {
+            val adversaryNames = viewModel.gameDetail.adversaries.toList().map { it.second }
+
+            val arrayAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                adversaryNames
+            )
+
+            spnAdversaryName.adapter = arrayAdapter
+            val position = arrayAdapter.getPosition(viewModel.gameDetail.adversary)
+
+            spnAdversaryName.setSelection(position)
+
             saveButton.setOnClickListener {
-                viewModel.requestNewGame(editName.text.toString(), editAdversary.text.toString(), editScore.text.toString(), editAdversary.text.toString())
+                val advId = viewModel.gameDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
+                viewModel.requestNewGame(
+                    name = spnAdversaryName.selectedItem.toString(),
+                    adversary = editAdversary.text.toString(),
+                    score = editScore.text.toString(),
+                    scoreAdversary = editAdvScores.text.toString(),
+                    adversaryId = advId
+                )
             }
         }
     }
 
     private fun setupEntities() {
         if (arguments != null) {
-            val playerEntity = arguments?.getParcelable<PlayerEntity>("gamer")
+            val playerEntity = arguments?.getParcelable<PlayerEntity>("player")
             val gameEntity = arguments?.getParcelable<GameEntity>("game")
             if (playerEntity != null) {
                 binding.player = playerEntity

@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            supportActionBar?.setDisplayHomeAsUpEnabled(destination.id != R.id.GamerListFragment)
+            supportActionBar?.setDisplayHomeAsUpEnabled(destination.id != R.id.PlayerListFragment)
         }
     }
 }

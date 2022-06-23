@@ -10,9 +10,9 @@ import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.databinding.ItemGamerBinding
 
-class GamerViewAdapter(
+class PlayerViewAdapter(
     private val onItemClicked: (PlayerEntity) -> Unit
-) : PagingDataAdapter<PlayerEntity, GamerViewAdapter.ViewHolder>(COMPARATOR) {
+) : PagingDataAdapter<PlayerEntity, PlayerViewAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

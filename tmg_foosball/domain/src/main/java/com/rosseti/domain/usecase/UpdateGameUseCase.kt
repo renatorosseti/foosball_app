@@ -13,11 +13,12 @@ class UpdateGameUseCase(
     operator fun invoke(
         id: String,
         gamerId: String,
+        adversaryId: String,
         adversary: String,
         score: String,
         scoreAdversary: String
     ): Single<GameEntity> =
-        gameRepository.updateGame(id, gamerId, adversary, score, scoreAdversary)
+        gameRepository.updateGame(id = id, gamerId = gamerId, adversaryId = adversaryId, adversary = adversary, score = score, scoreAdversary = scoreAdversary)
             .subscribeOn(schedulers.subscribeOn)
             .observeOn(schedulers.observeOn)
 }
