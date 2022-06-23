@@ -5,7 +5,6 @@ import com.rosseti.data.model.GameModel
 import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.repository.GameRepository
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 
 class GameRepositoryImpl(private val api: Api) : GameRepository {
     override fun fetchGames(): Single<List<GameEntity>> {
@@ -15,7 +14,6 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
                     createGameEntity(model)
                 }
             }
-            .subscribeOn(Schedulers.io())
     }
 
     override fun updateGame(
@@ -56,13 +54,11 @@ class GameRepositoryImpl(private val api: Api) : GameRepository {
 
     private fun createGameEntity(it: GameModel) = GameEntity(
         id = it.id,
-        playerId = it.playerId,
-        adversary = it.adversary,
-        adversaryId = it.adversaryId,
-        playerName = it.playerName,
-        score = it.score,
-        scoreAdversary = it.scoreAdversary,
-        result = "${it.score} x ${it.scoreAdversary}",
-        isWinner = it.score > it.scoreAdversary
+        _playerId = it.playerId,
+        _adversary = it.adversary,
+        _adversaryId = it.adversaryId,
+        _playerName = it.playerName,
+        _score = it.score,
+        _scoreAdversary = it.scoreAdversary
     )
 }

@@ -1,7 +1,6 @@
 package com.rosseti.tmgfoosball.ui.list
 
 import androidx.lifecycle.MutableLiveData
-import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.usecase.GetGamesUseCase
 import com.rosseti.domain.usecase.GetPlayersUseCase
@@ -36,14 +35,5 @@ class PlayerListViewModel @Inject constructor(
         }, onError = { e ->
             response.postValue(PlayerListViewState.ShowNetworkError(e))
         }).addTo(compositeDisposable)
-    }
-
-    private fun updatePlayers(player: PlayerEntity, games: List<GameEntity>): PlayerEntity {
-        player.copy(
-            games = games.filter { it.playerId == player.id || it.adversaryId == player.id },
-            matches = games.size.toString(),
-            scores = games.filter { it.score > it.scoreAdversary }.size.toString()
-        )
-        return player
     }
 }

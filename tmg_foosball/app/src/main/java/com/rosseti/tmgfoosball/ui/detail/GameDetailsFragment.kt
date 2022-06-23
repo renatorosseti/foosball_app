@@ -37,8 +37,11 @@ class GameDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
-        viewModel =
-            ViewModelProvider(this, this.viewModelFactory).get(GameDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, this.viewModelFactory).get(GameDetailsViewModel::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
         setupEntities()
         setupUi()
         observeActions()
@@ -66,15 +69,17 @@ class GameDetailsFragment : BaseFragment() {
             )
 
             spnAdversaryName.adapter = arrayAdapter
-            val position = arrayAdapter.getPosition(viewModel.gameDetail.adversary)
+            val game = viewModel.gameDetail
+            val playerAdversary = game.adversary
+            val position = arrayAdapter.getPosition(playerAdversary)
             spnAdversaryName.setSelection(position)
 
             saveButton.setOnClickListener {
                 val advId =
                     viewModel.gameDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
                 viewModel.requestNewGame(
-                    name = spnAdversaryName.selectedItem.toString(),
-                    adversary = editAdversary.text.toString(),
+                    name = editPlayer.text.toString(),
+                    adversary = spnAdversaryName.selectedItem.toString(),
                     score = editScore.text.toString(),
                     scoreAdversary = editAdvScores.text.toString(),
                     adversaryId = advId

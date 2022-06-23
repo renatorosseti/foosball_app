@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:windowSoftInputMode="adjustResize">
 
     <data>
 
@@ -20,8 +21,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_0dp"
+            android:isScrollContainer="true"
             app:layout_constraintBottom_toTopOf="@+id/save_button"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -40,12 +41,11 @@
                     android:hint="@string/player_name">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_adversary"
+                        android:id="@+id/edit_player"
+                        style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:inputType="text"
-                        android:maxLines="1"
                         android:text="@{game.playerName}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,22 +61,21 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_score"
+                        style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:inputType="number"
-                        android:maxLines="1"
-                        android:text="@{game.isPlayerAdversary ? game.scoreAdversary : game.score}" />
+                        android:text="@{game.score}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginStart="@dimen/dimen_32dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:textSize="@dimen/dimen_12sp"
-                    android:text="@string/adversary" />
+                    android:text="@string/adversary"
+                    android:textSize="@dimen/dimen_12sp" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spn_adversary_name"
@@ -96,12 +95,11 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_adv_scores"
+                        style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:inputType="number"
-                        android:maxLines="1"
-                        android:text="@{game.isPlayerAdversary ? game.score : game.scoreAdversary}" />
+                        android:text="@{game.scoreAdversary}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -110,16 +108,14 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save_button"
-            style="@style/ButtonScore"
+            style="@style/ButtonStyle"
             android:layout_marginStart="@dimen/dimen_16dp"
             android:layout_marginEnd="@dimen/dimen_16dp"
             android:layout_marginBottom="@dimen/dimen_24dp"
-            android:background="@color/colorPrimary"
             android:text="@string/save"
-            android:textColor="@android:color/background_light"
+            android:layout_gravity="bottom"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

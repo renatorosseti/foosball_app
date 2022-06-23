@@ -48,10 +48,16 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="ButtonScore" >
+    <style name="TextInputStyle" >
+        <item name="android:background">@color/white</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="ButtonStyle" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:background">@drawable/button_rounded_shape</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

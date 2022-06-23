@@ -1,6 +1,7 @@
 package com.rosseti.domain.usecase
 
 import com.rosseti.domain.SchedulerProvider
+import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.domain.repository.GameRepository
 import io.reactivex.Single
@@ -15,11 +16,7 @@ class GetGamesUseCase(
             .map { games ->
                 val updatedGames = games.map { game ->
                     game.copy(
-                        adversaries = getAdversaries(
-                            players,
-                            game.playerId,
-                            game.adversaryId
-                        )
+                        adversaries = getAdversaries(game, players)
                     )
                 }
                 players.map { player ->
@@ -27,9 +24,7 @@ class GetGamesUseCase(
                         .filter { it.playerId == player.id || it.adversaryId == player.id }
                         .map { game ->
                             game.copy(
-                                isPlayerAdversary = game.adversaryId == player.id,
-                                result = if (game.adversaryId == player.id) "${game.scoreAdversary} x ${game.score}" else "${game.score} x ${game.scoreAdversary}",
-                                isWinner = if (game.adversaryId == player.id) game.scoreAdversary > game.score else game.score > game.scoreAdversary
+                                isPlayerAdversary = game.adversaryId == player.id
                             )
                         }
                     player.copy(
@@ -45,13 +40,12 @@ class GetGamesUseCase(
     }
 
     private fun getAdversaries(
-        players: List<PlayerEntity>,
-        playerId: String,
-        adversaryId: String
+        game: GameEntity,
+        players: List<PlayerEntity>
     ): HashMap<String, String> {
         val hashMap = HashMap<String, String>()
         players
-            .filter { it.id != playerId || it.id != adversaryId }
+            .filter { it.id != game.playerId }
             .map { hashMap[it.id] = it.name }
         return hashMap
     }

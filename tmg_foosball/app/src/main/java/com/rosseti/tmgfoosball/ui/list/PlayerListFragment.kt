@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
@@ -39,6 +40,10 @@ class PlayerListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
         viewModel = ViewModelProvider(this, this.viewModelFactory).get(PlayerListViewModel::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
         setupAdapter()
         setupButton()
         observeActions()
@@ -71,7 +76,11 @@ class PlayerListFragment : BaseFragment() {
                 }
                 is PlayerListViewState.ShowContentFeed -> {
                     adapter.submitData(lifecycle, PagingData.from(it.players))
-                    progressDialog.hide()
+                    adapter.addLoadStateListener { loadState ->
+                        if (loadState.source.append == LoadState.NotLoading(endOfPaginationReached = true)) {
+                            progressDialog.hide()
+                        }
+                    }
                 }
                 is PlayerListViewState.ShowNetworkError -> {
                     progressDialog.hide()
