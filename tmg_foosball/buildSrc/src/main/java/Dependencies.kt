@@ -36,7 +36,7 @@ object Versions {
     const val MOSHI = "1.9.0"
     const val MOSHI_LAZY_ADAPTER  = "2.2"
     const val  SDP = "1.0.6"
-    const val NAVIGATION = "2.3.0"
+    const val NAVIGATION = "2.4.1"
     const val COROUTINES_ANDROID = "1.3.7"
     const val EXO_PLAYER="2.11.7"
     const val ROOM_VERSION="1.1.1"

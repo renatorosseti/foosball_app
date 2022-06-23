@@ -18,13 +18,13 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/txt_title"
+            android:id="@+id/txt_adversary"
             style="@style/subTextItemStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{item.adversary}"
+            android:text="@{item.isPlayerAdversary ? item.playerName : item.adversary}"
             android:layout_marginEnd="16dp"
             android:textColor="?attr/colorOnSecondary"
             app:layout_constraintEnd_toStartOf="@+id/txt_result"

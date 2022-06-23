@@ -38,6 +38,8 @@ class PlayerDetailsFragment : BaseFragment() {
         val playerEntity = setupPlayerEntity()
         setupAdapter(playerEntity)
         setupUiButtons(playerEntity)
+        observeNavigationCallBack()
+
     }
 
     private fun setupAdapter(playerEntity: PlayerEntity) {
@@ -78,5 +80,12 @@ class PlayerDetailsFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun observeNavigationCallBack() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<PlayerEntity>("player")
+            ?.observe(viewLifecycleOwner) {
+                adapter.submitData(lifecycle, PagingData.from(it.games))
+            }
     }
 }

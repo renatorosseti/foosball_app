@@ -16,7 +16,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/txt_title"
+                android:id="@+id/txt_adversary"
                 style="@style/textTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

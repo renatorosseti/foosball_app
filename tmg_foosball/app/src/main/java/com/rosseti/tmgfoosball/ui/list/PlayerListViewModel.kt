@@ -32,14 +32,6 @@ class PlayerListViewModel @Inject constructor(
         response.postValue(PlayerListViewState.ShowLoadingState)
         val result = getGamesUseCase(players)
         result.subscribeBy(onSuccess = { games ->
-           /* val list = players.map { player ->
-                val games2 = games.filter { it.gamerId == player.id || it.adversaryId == player.id }
-                player.copy(
-                    games = games2,
-                    matches = games2.size.toString(),
-                    scores = games2.filter { it.score > it.scoreAdversary }.size.toString()
-                )
-            }*/
             response.postValue(PlayerListViewState.ShowContentFeed(games))
         }, onError = { e ->
             response.postValue(PlayerListViewState.ShowNetworkError(e))

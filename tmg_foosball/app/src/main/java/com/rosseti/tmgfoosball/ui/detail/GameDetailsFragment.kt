@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.rosseti.domain.entity.GameEntity
@@ -48,6 +47,7 @@ class GameDetailsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("player", viewModel.playerDetail)
                 findNavController().popBackStack()
                 true
             }
@@ -67,11 +67,11 @@ class GameDetailsFragment : BaseFragment() {
 
             spnAdversaryName.adapter = arrayAdapter
             val position = arrayAdapter.getPosition(viewModel.gameDetail.adversary)
-
             spnAdversaryName.setSelection(position)
 
             saveButton.setOnClickListener {
-                val advId = viewModel.gameDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
+                val advId =
+                    viewModel.gameDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
                 viewModel.requestNewGame(
                     name = spnAdversaryName.selectedItem.toString(),
                     adversary = editAdversary.text.toString(),
@@ -89,7 +89,7 @@ class GameDetailsFragment : BaseFragment() {
             val gameEntity = arguments?.getParcelable<GameEntity>("game")
             if (playerEntity != null) {
                 binding.player = playerEntity
-                viewModel.updateGamerEntity(playerEntity)
+                viewModel.updatePlayerEntity(playerEntity)
             }
             if (gameEntity != null) {
                 binding.game = gameEntity
@@ -99,7 +99,7 @@ class GameDetailsFragment : BaseFragment() {
     }
 
     private fun observeActions() {
-        viewModel.response.observe(viewLifecycleOwner, Observer {
+        viewModel.response.observe(viewLifecycleOwner) {
             when (it) {
                 is PlayerDetailsViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
@@ -115,6 +115,6 @@ class GameDetailsFragment : BaseFragment() {
                     )
                 }
             }
-        })
+        }
     }
 }

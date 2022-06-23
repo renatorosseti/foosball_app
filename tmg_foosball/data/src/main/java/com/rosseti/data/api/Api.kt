@@ -25,7 +25,7 @@ interface Api {
         @Field("name") name: String
     ): Single<PlayerModel>
 
-    @GET("/games")
+    @GET("games")
     fun fetchGames(): Single<List<GameModel>>
 
     @FormUrlEncoded

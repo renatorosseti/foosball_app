@@ -5,6 +5,7 @@ import io.reactivex.Single
 
 interface GameRepository {
     fun fetchGames(): Single<List<GameEntity>>
+
     fun updateGame(
         id: String,
         gamerId: String,

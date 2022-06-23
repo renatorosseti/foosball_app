@@ -14,11 +14,24 @@ class GetGamesUseCase(
         val result = gameRepository.fetchGames()
             .map { games ->
                 val updatedGames = games.map { game ->
-                    game.copy(adversaries = getAdversaries(players, game.playerId, game.adversaryId))
+                    game.copy(
+                        adversaries = getAdversaries(
+                            players,
+                            game.playerId,
+                            game.adversaryId
+                        )
+                    )
                 }
                 players.map { player ->
-                    val gamesByPlayer =
-                        updatedGames.filter { it.playerId == player.id || it.adversaryId == player.id }
+                    val gamesByPlayer = updatedGames
+                        .filter { it.playerId == player.id || it.adversaryId == player.id }
+                        .map { game ->
+                            game.copy(
+                                isPlayerAdversary = game.adversaryId == player.id,
+                                result = if (game.adversaryId == player.id) "${game.scoreAdversary} x ${game.score}" else "${game.score} x ${game.scoreAdversary}",
+                                isWinner = if (game.adversaryId == player.id) game.scoreAdversary > game.score else game.score > game.scoreAdversary
+                            )
+                        }
                     player.copy(
                         games = gamesByPlayer,
                         matches = gamesByPlayer.size.toString(),
