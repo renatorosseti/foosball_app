@@ -62,6 +62,5 @@ dependencies {
     implementation Libs.RXPAGING
 
     testImplementation TestLibs.JUNIT
-    testImplementation TestLibs.MOCKITO
-    testImplementation TestLibs.MOCKITO_HARRMAN
+    testImplementation TestLibs.MOCKK
 }

@@ -14,7 +14,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class GameDetailsViewModel @Inject constructor(
-    private val updatePlayerUseCase: UpdatePlayerUseCase,
     private val createPlayerUseCase: CreatePlayerUseCase,
     private val updateGameUseCase: UpdateGameUseCase,
     private val createGameUseCase: CreateGameUseCase
@@ -50,9 +49,6 @@ class GameDetailsViewModel @Inject constructor(
                     score = score,
                     scoreAdversary = scoreAdversary
                 )
-                if (playerDetail.name != playerName) {
-                    updatePlayer(playerDetail.id, playerName)
-                }
             }
         }
     }
@@ -107,17 +103,6 @@ class GameDetailsViewModel @Inject constructor(
                 response.postValue(PlayerDetailsViewState.ShowContent(playerDetail, it))
                 updateGameEntity(it)
                 updatePlayerEntity(playerDetail.updateGames(it))
-            }, onError = { e ->
-                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
-            }).addTo(compositeDisposable)
-    }
-
-     fun updatePlayer(id: String, name: String) {
-        response.postValue(PlayerDetailsViewState.ShowLoadingState)
-        updatePlayerUseCase(id, name)
-            .subscribeBy(onSuccess = {
-                updatePlayerEntity(it)
-                response.postValue(PlayerDetailsViewState.ShowContent(it, gameDetail))
             }, onError = { e ->
                 response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)

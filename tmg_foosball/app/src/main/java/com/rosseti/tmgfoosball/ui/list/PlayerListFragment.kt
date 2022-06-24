@@ -42,10 +42,6 @@ class PlayerListFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
         viewModel =
             ViewModelProvider(this, this.viewModelFactory).get(PlayerListViewModel::class.java)
-    }
-
-    override fun onResume() {
-        super.onResume()
         setupAdapter()
         setupButton()
         observeActions()
@@ -56,7 +52,7 @@ class PlayerListFragment : BaseFragment() {
         adapter = PlayerViewAdapter {
             findNavController().navigate(
                 R.id.action_playerListFragment_to_playerDetailsFragment,
-                bundleOf("player" to it)
+                bundleOf(PLAYER_BUNDLE to it)
             )
         }
         binding.list.adapter = adapter
@@ -68,7 +64,7 @@ class PlayerListFragment : BaseFragment() {
             findNavController().navigate(
                 R.id.action_PlayerListFragment_to_gameDetailsFragment,
                 bundleOf(
-                    "player" to playerEntity.copy(
+                    PLAYER_BUNDLE to playerEntity.copy(
                         adversaries = playerEntity.getAdversaries(
                             viewModel.playerList
                         )

@@ -26,9 +26,6 @@ class GameDetailsViewModelTest {
     @MockK
     lateinit var createGameUseCase: CreateGameUseCase
 
-    @MockK
-    lateinit var updatePlayerUseCase: UpdatePlayerUseCase
-
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
@@ -37,22 +34,23 @@ class GameDetailsViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = GameDetailsViewModel(
-            updatePlayerUseCase,
             createPlayerUseCase,
             updateGameUseCase,
             createGameUseCase
         )
     }
 
+    private val gameId = "1"
+    private val playerId = "1"
+    private val playerName = "Test"
+    private val adversaryId = "Test"
+    private val adversaryName = "Test"
+    private val score = "Test"
+    private val scoreAdversary = "Test"
+
     @Test
-    fun `Given the inputs, when call the api, should create the game object`() {
+    fun `Given valid credentials, when call api createGame, should return the game object`() {
         //given
-        val playerId = "1"
-        val playerName = "Test"
-        val adversaryId = "Test"
-        val adversaryName = "Test"
-        val score = "Test"
-        val scoreAdversary = "Test"
         val game = GameEntity(id = playerId)
         val domainData = PlayerEntity(id = playerId, name = playerName, games = listOf(game))
         viewModel.playerDetail = domainData
@@ -86,16 +84,9 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given error emission, when load create game with error, should update error`() {
+    fun `Given error emission, when create game with error, should return error`() {
         //Given
         val error = RuntimeException("Unknown error")
-
-        val playerId = "1"
-        val playerName = "Test"
-        val adversaryId = "Test"
-        val adversaryName = "Test"
-        val score = "Test"
-        val scoreAdversary = "Test"
 
         every {
             createGameUseCase(
@@ -118,7 +109,7 @@ class GameDetailsViewModelTest {
             scoreAdversary
         )
 
-        //should
+        //then
         Assert.assertEquals(
             viewModel.response.value,
             PlayerDetailsViewState.ShowNetworkError(error)
@@ -126,20 +117,25 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given the inputs, when call the api, should create the player object`() {
+    fun `Given valid credentials, when call api createPlayer, should return the player object`() {
         //given
-        val playerId = "1"
-        val playerName = "Test"
-        val adversaryId = "Test"
-        val adversaryName = ""
-        val score = ""
-        val scoreAdversary = ""
-        val game = GameEntity(id = playerId)
+        val game = GameEntity(id = gameId)
         val player = PlayerEntity(id = playerId, name = playerName, games = listOf(game))
 
         every {
             createPlayerUseCase(playerName)
         } returns Single.just(player)
+
+        every {
+            createGameUseCase(
+                playerId,
+                adversaryId,
+                playerName,
+                adversaryName,
+                score,
+                scoreAdversary
+            )
+        } returns Single.just(game)
 
         //when
         viewModel.createPlayer(
@@ -159,15 +155,9 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given error emission, when load create player with error, should update error`() {
+    fun `Given error emission, when create player with error, should return error`() {
         //Given
         val error = RuntimeException("Unknown error")
-
-        val playerName = "Test"
-        val adversaryId = "Test"
-        val adversaryName = "Test"
-        val score = "Test"
-        val scoreAdversary = "Test"
 
         every {
             createPlayerUseCase(playerName)
@@ -182,7 +172,7 @@ class GameDetailsViewModelTest {
             scoreAdversary
         )
 
-        //should
+        //then
         Assert.assertEquals(
             viewModel.response.value,
             PlayerDetailsViewState.ShowNetworkError(error)
@@ -190,15 +180,8 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given the inputs, when call the api, should update the game object`() {
+    fun `Given valid credentials, when call api update, should return the game object`() {
         //given
-        val gameId = "1"
-        val playerId = "1"
-        val playerName = "Test"
-        val adversaryId = "Test"
-        val adversaryName = "Test"
-        val score = "Test"
-        val scoreAdversary = "Test"
         val game = GameEntity(id = gameId)
         val player = PlayerEntity(id = playerId, name = playerName, games = listOf(game))
         viewModel.playerDetail = player
@@ -234,17 +217,9 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given error emission, when update game with error, should update error`() {
+    fun `Given error emission, when update game with error, should return error`() {
         //Given
         val error = RuntimeException("Unknown error")
-
-        val gameId = "1"
-        val playerId = "1"
-        val playerName = "Test"
-        val adversaryId = "Test"
-        val adversaryName = "Test"
-        val score = "Test"
-        val scoreAdversary = "Test"
 
         every {
             updateGameUseCase(
@@ -269,7 +244,7 @@ class GameDetailsViewModelTest {
             scoreAdversary
         )
 
-        //should
+        //then
         Assert.assertEquals(
             viewModel.response.value,
             PlayerDetailsViewState.ShowNetworkError(error)

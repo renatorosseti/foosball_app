@@ -13,7 +13,7 @@ import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
-import com.rosseti.tmgfoosball.databinding.FragmentGameDetailBinding
+import com.rosseti.tmgfoosball.databinding.FragmentGameDetailsBinding
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -23,13 +23,13 @@ class GameDetailsFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: GameDetailsViewModel
 
-    lateinit var binding: FragmentGameDetailBinding
+    lateinit var binding: FragmentGameDetailsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_detail, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_details, container, false)
         return binding.root
     }
 
@@ -38,10 +38,6 @@ class GameDetailsFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this, this.viewModelFactory).get(GameDetailsViewModel::class.java)
-    }
-
-    override fun onResume() {
-        super.onResume()
         setupEntities()
         setupUi()
         observeActions()
@@ -50,8 +46,7 @@ class GameDetailsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("player", viewModel.playerDetail)
-                findNavController().popBackStack()
+                onPopBackStack()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -90,8 +85,8 @@ class GameDetailsFragment : BaseFragment() {
 
     private fun setupEntities() {
         if (arguments != null) {
-            val playerEntity = arguments?.getParcelable("player") ?: PlayerEntity()
-            val gameEntity = arguments?.getParcelable("game") ?: GameEntity()
+            val playerEntity = arguments?.getParcelable(PLAYER_BUNDLE) ?: PlayerEntity()
+            val gameEntity = arguments?.getParcelable(GAME_BUNDLE) ?: GameEntity()
 
             if (playerEntity.id.isNotEmpty()) {
                 binding.editPlayer.isEnabled = false
@@ -111,7 +106,10 @@ class GameDetailsFragment : BaseFragment() {
                     progressDialog.show(requireContext())
                 }
                 is PlayerDetailsViewState.ShowContent -> {
+                    hideSoftKeyboard(binding.editAdvScores.windowToken)
+                    onPopBackStack()
                     progressDialog.hide()
+
                 }
                 is PlayerDetailsViewState.ShowNetworkError -> {
                     progressDialog.hide()
@@ -122,5 +120,13 @@ class GameDetailsFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun onPopBackStack() {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            PLAYER_BUNDLE,
+            viewModel.playerDetail
+        )
+        findNavController().popBackStack()
     }
 }

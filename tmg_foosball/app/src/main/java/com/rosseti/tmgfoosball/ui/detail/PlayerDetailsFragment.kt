@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
-import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
@@ -40,14 +39,13 @@ class PlayerDetailsFragment : BaseFragment() {
         setupAdapter(playerEntity)
         setupUiButtons(playerEntity)
         observeNavigationCallBack()
-
     }
 
     private fun setupAdapter(playerEntity: PlayerEntity) {
         adapter = GameViewAdapter {
             findNavController().navigate(
                 R.id.action_gamerDetailsFragment_to_gameDetailsFragment,
-                bundleOf("player" to playerEntity, "game" to it)
+                bundleOf(PLAYER_BUNDLE to playerEntity, GAME_BUNDLE to it)
             )
         }
         adapter.submitData(lifecycle, PagingData.from(playerEntity.games))
@@ -56,7 +54,7 @@ class PlayerDetailsFragment : BaseFragment() {
     }
 
     private fun setupPlayerEntity(): PlayerEntity {
-        val playerEntity = arguments?.getParcelable("player") ?: PlayerEntity()
+        val playerEntity = arguments?.getParcelable(PLAYER_BUNDLE) ?: PlayerEntity()
         binding.player = playerEntity
         return playerEntity
     }
@@ -66,7 +64,7 @@ class PlayerDetailsFragment : BaseFragment() {
             newGameButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_gamerDetailsFragment_to_gameDetailsFragment,
-                    bundleOf("player" to playerEntity)
+                    bundleOf(PLAYER_BUNDLE to playerEntity)
                 )
             }
         }
@@ -83,7 +81,7 @@ class PlayerDetailsFragment : BaseFragment() {
     }
 
     private fun observeNavigationCallBack() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<PlayerEntity>("player")
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<PlayerEntity>(PLAYER_BUNDLE)
             ?.observe(viewLifecycleOwner) {
                 adapter.submitData(lifecycle, PagingData.from(it.games))
                 binding.playerName.text = it.name ?: ""

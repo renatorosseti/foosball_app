@@ -30,5 +30,5 @@
         android:id="@+id/gameDetailsFragment"
         android:name="com.rosseti.tmgfoosball.ui.detail.GameDetailsFragment"
         android:label="@string/foosball_scores"
-        tools:layout="@layout/fragment_game_detail" />
+        tools:layout="@layout/fragment_game_details" />
 </navigation>

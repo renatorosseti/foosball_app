@@ -36,7 +36,10 @@ dependencies {
     implementation Libs.MOSHI
     implementation Libs.PAGING
 
+    //Mockk
+    testImplementation TestLibs.MOCKK
+    testImplementation TestLibs.CORE_TESTING
+
     testImplementation TestLibs.JUNIT
-    testImplementation TestLibs.MOCKITO
-    testImplementation TestLibs.MOCKITO_HARRMAN
+    androidTestImplementation TestLibs.ESPRESSO
 }

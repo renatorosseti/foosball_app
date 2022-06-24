@@ -20,4 +20,9 @@ open class BaseFragment : Fragment() {
             windowToken,
             0
         )
+
+    companion object {
+        const val GAME_BUNDLE = "game"
+        const val PLAYER_BUNDLE = "player"
+    }
 }

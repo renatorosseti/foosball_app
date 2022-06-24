@@ -1,7 +1,6 @@
 package com.rosseti.tmgfoosball
 
 import android.app.Application
-import com.github.ajalt.timberkt.Timber
 import com.rosseti.tmgfoosball.di.component.AppComponent
 import com.rosseti.tmgfoosball.di.component.DaggerAppComponent
 import dagger.android.AndroidInjector
@@ -20,8 +19,6 @@ class TMGFoosballApp : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
-
         component = DaggerAppComponent
             .builder()
             .application(this)

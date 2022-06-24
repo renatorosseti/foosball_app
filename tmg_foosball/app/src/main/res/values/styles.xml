@@ -27,7 +27,7 @@
     <style name="textTitleMatchesStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/dimen_16sp</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 
     <style name="subTextItemStyle" parent="TextAppearance.AppCompat">
