@@ -1,4 +1,4 @@
-package com.rosseti.tmgfoosball.di.module.scheduler
+package com.rosseti.domain.di.module.scheduler
 
 import com.rosseti.domain.SchedulerProvider
 import io.reactivex.Scheduler

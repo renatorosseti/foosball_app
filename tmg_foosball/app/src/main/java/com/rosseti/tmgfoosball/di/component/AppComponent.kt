@@ -2,7 +2,9 @@ package com.rosseti.tmgfoosball.di.component
 
 import android.app.Application
 import android.content.Context
+import com.rosseti.data.di.module.DataModule
 import com.rosseti.data.di.module.NetworkModule
+import com.rosseti.domain.di.module.DomainModule
 import com.rosseti.tmgfoosball.TMGFoosballApp
 import com.rosseti.tmgfoosball.di.module.*
 import dagger.BindsInstance

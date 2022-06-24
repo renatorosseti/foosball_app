@@ -3,7 +3,7 @@ package com.rosseti.tmgfoosball.di.module
 import android.app.Application
 import android.content.Context
 import com.rosseti.domain.SchedulerProvider
-import com.rosseti.tmgfoosball.di.module.scheduler.AppSchedulers
+import com.rosseti.domain.di.module.scheduler.AppSchedulers
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named

@@ -1,4 +1,4 @@
-package com.rosseti.tmgfoosball.di.module
+package com.rosseti.data.di.module
 
 import com.rosseti.data.api.Api
 import com.rosseti.data.repository.GameRepositoryImpl

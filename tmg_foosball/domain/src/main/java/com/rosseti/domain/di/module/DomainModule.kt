@@ -1,4 +1,4 @@
-package com.rosseti.tmgfoosball.di.module
+package com.rosseti.domain.di.module
 
 import com.rosseti.domain.SchedulerProvider
 import com.rosseti.domain.repository.GameRepository
