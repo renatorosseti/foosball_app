@@ -45,7 +45,7 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given player detail, when call the api, should update the player detail object`() {
+    fun `Given the inputs, when call the api, should create the game object`() {
         //given
         val playerId = "1"
         val playerName = "Test"
@@ -86,15 +86,16 @@ class GameDetailsViewModelTest {
     }
 
     @Test
-    fun `Given error emission, when load create player with error, should update error`() {
+    fun `Given error emission, when load create game with error, should update error`() {
         //Given
+        val error = RuntimeException("Unknown error")
+
         val playerId = "1"
         val playerName = "Test"
         val adversaryId = "Test"
         val adversaryName = "Test"
         val score = "Test"
         val scoreAdversary = "Test"
-        val error = RuntimeException("Unknown error")
 
         every {
             createGameUseCase(
@@ -105,12 +106,161 @@ class GameDetailsViewModelTest {
                 score,
                 scoreAdversary
             )
-        } returns Single.error(
-            error
-        )
+        } returns Single.error(error)
 
         //when
         viewModel.createGame(
+            playerId,
+            adversaryId,
+            playerName,
+            adversaryName,
+            score,
+            scoreAdversary
+        )
+
+        //should
+        Assert.assertEquals(
+            viewModel.response.value,
+            PlayerDetailsViewState.ShowNetworkError(error)
+        )
+    }
+
+    @Test
+    fun `Given the inputs, when call the api, should create the player object`() {
+        //given
+        val playerId = "1"
+        val playerName = "Test"
+        val adversaryId = "Test"
+        val adversaryName = ""
+        val score = ""
+        val scoreAdversary = ""
+        val game = GameEntity(id = playerId)
+        val player = PlayerEntity(id = playerId, name = playerName, games = listOf(game))
+
+        every {
+            createPlayerUseCase(playerName)
+        } returns Single.just(player)
+
+        //when
+        viewModel.createPlayer(
+            playerName,
+            adversaryId,
+            adversaryName,
+            score,
+            scoreAdversary
+        )
+
+        //to check the one value for testing
+        Assert.assertNotNull(viewModel.playerDetail)
+        Assert.assertEquals(
+            PlayerDetailsViewState.ShowContent(player, viewModel.gameDetail),
+            viewModel.response.value
+        )
+    }
+
+    @Test
+    fun `Given error emission, when load create player with error, should update error`() {
+        //Given
+        val error = RuntimeException("Unknown error")
+
+        val playerName = "Test"
+        val adversaryId = "Test"
+        val adversaryName = "Test"
+        val score = "Test"
+        val scoreAdversary = "Test"
+
+        every {
+            createPlayerUseCase(playerName)
+        } returns Single.error(error)
+
+        //when
+        viewModel.createPlayer(
+            playerName,
+            adversaryId,
+            adversaryName,
+            score,
+            scoreAdversary
+        )
+
+        //should
+        Assert.assertEquals(
+            viewModel.response.value,
+            PlayerDetailsViewState.ShowNetworkError(error)
+        )
+    }
+
+    @Test
+    fun `Given the inputs, when call the api, should update the game object`() {
+        //given
+        val gameId = "1"
+        val playerId = "1"
+        val playerName = "Test"
+        val adversaryId = "Test"
+        val adversaryName = "Test"
+        val score = "Test"
+        val scoreAdversary = "Test"
+        val game = GameEntity(id = gameId)
+        val player = PlayerEntity(id = playerId, name = playerName, games = listOf(game))
+        viewModel.playerDetail = player
+        every {
+            updateGameUseCase(
+                gameId,
+                playerId,
+                adversaryId,
+                playerName,
+                adversaryName,
+                score,
+                scoreAdversary
+            )
+        } returns Single.just(game)
+
+        //when
+        viewModel.updateGame(
+            gameId,
+            playerId,
+            adversaryId,
+            playerName,
+            adversaryName,
+            score,
+            scoreAdversary
+        )
+
+        //to check the one value for testing
+        Assert.assertNotNull(viewModel.playerDetail)
+        Assert.assertEquals(
+            PlayerDetailsViewState.ShowContent(viewModel.playerDetail, game),
+            viewModel.response.value
+        )
+    }
+
+    @Test
+    fun `Given error emission, when update game with error, should update error`() {
+        //Given
+        val error = RuntimeException("Unknown error")
+
+        val gameId = "1"
+        val playerId = "1"
+        val playerName = "Test"
+        val adversaryId = "Test"
+        val adversaryName = "Test"
+        val score = "Test"
+        val scoreAdversary = "Test"
+
+        every {
+            updateGameUseCase(
+                gameId,
+                playerId,
+                adversaryId,
+                playerName,
+                adversaryName,
+                score,
+                scoreAdversary
+            )
+        } returns Single.error(error)
+
+        //when
+        viewModel.updateGame(
+            gameId,
             playerId,
             adversaryId,
             playerName,

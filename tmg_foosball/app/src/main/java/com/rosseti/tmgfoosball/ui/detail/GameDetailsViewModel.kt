@@ -39,9 +39,6 @@ class GameDetailsViewModel @Inject constructor(
             }
             gameDetail.id.isEmpty() -> {
                 createGame(playerDetail.id, adversaryId, playerName, adversaryName, score, scoreAdversary)
-                if (playerDetail.name != playerName) {
-                    updatePlayer(playerDetail.id, playerName)
-                }
             }
             else -> {
                 updateGame(
@@ -68,7 +65,7 @@ class GameDetailsViewModel @Inject constructor(
         gameDetail = entity
     }
 
-    private fun updateGame(
+    fun updateGame(
         id: String,
         gamerId: String,
         adversaryId: String,
@@ -115,7 +112,7 @@ class GameDetailsViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    private fun updatePlayer(id: String, name: String) {
+     fun updatePlayer(id: String, name: String) {
         response.postValue(PlayerDetailsViewState.ShowLoadingState)
         updatePlayerUseCase(id, name)
             .subscribeBy(onSuccess = {
@@ -126,7 +123,7 @@ class GameDetailsViewModel @Inject constructor(
             }).addTo(compositeDisposable)
     }
 
-    private fun createPlayer(
+    fun createPlayer(
         playerName: String,
         adversaryId: String,
         adversary: String,
