@@ -7,7 +7,6 @@ import com.rosseti.domain.extensions.updateGames
 import com.rosseti.domain.usecase.CreateGameUseCase
 import com.rosseti.domain.usecase.CreatePlayerUseCase
 import com.rosseti.domain.usecase.UpdateGameUseCase
-import com.rosseti.domain.usecase.UpdatePlayerUseCase
 import com.rosseti.tmgfoosball.base.BaseViewModel
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -19,7 +18,7 @@ class GameDetailsViewModel @Inject constructor(
     private val createGameUseCase: CreateGameUseCase
 ) : BaseViewModel() {
 
-    val response = MutableLiveData<PlayerDetailsViewState>()
+    val response = MutableLiveData<GameDetailsViewState>()
 
     var playerDetail: PlayerEntity = PlayerEntity()
 
@@ -70,7 +69,7 @@ class GameDetailsViewModel @Inject constructor(
         score: String,
         scoreAdversary: String
     ) {
-        response.postValue(PlayerDetailsViewState.ShowLoadingState)
+        response.postValue(GameDetailsViewState.ShowLoadingState)
         updateGameUseCase(
             id = id,
             gamerId = gamerId,
@@ -81,11 +80,11 @@ class GameDetailsViewModel @Inject constructor(
             scoreAdversary = scoreAdversary
         )
             .subscribeBy(onSuccess = {
-                response.postValue(PlayerDetailsViewState.ShowContent(playerDetail, it))
+                response.postValue(GameDetailsViewState.ShowContent(playerDetail, it))
                 updateGameEntity(it)
                 updatePlayerEntity(playerDetail.updateGames(it))
             }, onError = { e ->
-                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
+                response.postValue(GameDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
@@ -97,14 +96,14 @@ class GameDetailsViewModel @Inject constructor(
         score: String,
         scoreAdversary: String
     ) {
-        response.postValue(PlayerDetailsViewState.ShowLoadingState)
+        response.postValue(GameDetailsViewState.ShowLoadingState)
         createGameUseCase(playerId, adversaryId, playerName, adversary, score, scoreAdversary)
             .subscribeBy(onSuccess = {
-                response.postValue(PlayerDetailsViewState.ShowContent(playerDetail, it))
+                response.postValue(GameDetailsViewState.ShowContent(playerDetail, it))
                 updateGameEntity(it)
                 updatePlayerEntity(playerDetail.updateGames(it))
             }, onError = { e ->
-                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
+                response.postValue(GameDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 
@@ -115,16 +114,16 @@ class GameDetailsViewModel @Inject constructor(
         score: String,
         scoreAdversary: String
     ) {
-        response.postValue(PlayerDetailsViewState.ShowLoadingState)
+        response.postValue(GameDetailsViewState.ShowLoadingState)
         createPlayerUseCase(playerName)
             .subscribeBy(onSuccess = {
-                response.postValue(PlayerDetailsViewState.ShowContent(it, gameDetail))
+                response.postValue(GameDetailsViewState.ShowContent(it, gameDetail))
                 updatePlayerEntity(it)
                 if (adversary.isNotEmpty()) {
                     createGame(playerDetail.id, adversaryId, playerName, adversary, score, scoreAdversary)
                 }
             }, onError = { e ->
-                response.postValue(PlayerDetailsViewState.ShowNetworkError(e))
+                response.postValue(GameDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
 }

@@ -29,7 +29,8 @@ class GameDetailsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_details, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_game_details, container, false)
         return binding.root
     }
 
@@ -37,7 +38,8 @@ class GameDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         AndroidSupportInjection.inject(this)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this, this.viewModelFactory).get(GameDetailsViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, this.viewModelFactory).get(GameDetailsViewModel::class.java)
         setupEntities()
         setupUi()
         observeActions()
@@ -54,31 +56,43 @@ class GameDetailsFragment : BaseFragment() {
     }
 
     private fun setupUi() {
+        val adversaryNames = viewModel.playerDetail.adversaries.toList().map { it.second }
+
+        val arrayAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            adversaryNames
+        )
+        val spinnerAdversary = binding.spnAdversaryName
+        spinnerAdversary.adapter = arrayAdapter
+        val game = viewModel.gameDetail
+        val playerAdversary = game.adversary
+        val position = arrayAdapter.getPosition(playerAdversary)
+        spinnerAdversary.setSelection(position)
+        setupButton()
+
+    }
+
+    private fun setupButton() {
         binding.apply {
-            val adversaryNames = viewModel.playerDetail.adversaries.toList().map { it.second }
-
-            val arrayAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                adversaryNames
-            )
-
-            spnAdversaryName.adapter = arrayAdapter
-            val game = viewModel.gameDetail
-            val playerAdversary = game.adversary
-            val position = arrayAdapter.getPosition(playerAdversary)
-            spnAdversaryName.setSelection(position)
-
             saveButton.setOnClickListener {
-                val advId =
-                    viewModel.playerDetail.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
-                viewModel.requestNewGame(
-                    playerName = editPlayer.text.toString(),
-                    adversaryName = spnAdversaryName.selectedItem.toString(),
-                    score = editScore.text.toString(),
-                    scoreAdversary = editAdvScores.text.toString(),
-                    adversaryId = advId
-                )
+                val playerName = editPlayer.text.toString()
+                val playerScore = editScore.text.toString()
+                val adversaryScore = editAdvScores.text.toString()
+                val adversaryName = spnAdversaryName.selectedItem.toString()
+                val adversaryId =
+                    viewModel.playerDetail?.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
+                if (playerName.isNotEmpty() && playerScore.isNotEmpty() && adversaryScore.isNotEmpty()) {
+                    viewModel.requestNewGame(
+                        playerName = playerName,
+                        adversaryName = adversaryName,
+                        score = playerScore,
+                        scoreAdversary = adversaryScore,
+                        adversaryId = adversaryId
+                    )
+                } else {
+                    errorDialog.show(requireContext(), getString(R.string.error_profile_empty))
+                }
             }
         }
     }
@@ -94,26 +108,26 @@ class GameDetailsFragment : BaseFragment() {
             binding.player = playerEntity
             viewModel.updatePlayerEntity(playerEntity)
 
-            binding.game = gameEntity
             viewModel.updateGameEntity(gameEntity)
+            binding.game = viewModel.gameDetail
         }
     }
 
     private fun observeActions() {
         viewModel.response.observe(viewLifecycleOwner) {
             when (it) {
-                is PlayerDetailsViewState.ShowLoadingState -> {
+                is GameDetailsViewState.ShowLoadingState -> {
                     progressDialog.show(requireContext())
                 }
-                is PlayerDetailsViewState.ShowContent -> {
+                is GameDetailsViewState.ShowContent -> {
                     hideSoftKeyboard(binding.editAdvScores.windowToken)
                     onPopBackStack()
                     progressDialog.hide()
 
                 }
-                is PlayerDetailsViewState.ShowNetworkError -> {
+                is GameDetailsViewState.ShowNetworkError -> {
                     progressDialog.hide()
-                    dialog.show(
+                    errorDialog.show(
                         context = requireContext(),
                         message = getString(R.string.error_internet)
                     )
@@ -123,10 +137,11 @@ class GameDetailsFragment : BaseFragment() {
     }
 
     private fun onPopBackStack() {
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+        val navController = findNavController()
+        navController.previousBackStackEntry?.savedStateHandle?.set(
             PLAYER_BUNDLE,
             viewModel.playerDetail
         )
-        findNavController().popBackStack()
+        navController.popBackStack()
     }
 }

@@ -13,7 +13,7 @@ open class BaseFragment : Fragment() {
     lateinit var progressDialog: ProgressDialog
 
     @Inject
-    lateinit var dialog: ErrorDialog
+    lateinit var errorDialog: ErrorDialog
 
     fun hideSoftKeyboard(windowToken: IBinder) =
         (requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(

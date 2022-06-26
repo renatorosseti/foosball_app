@@ -90,7 +90,7 @@ class PlayerListFragment : BaseFragment() {
                 }
                 is PlayerListViewState.ShowNetworkError -> {
                     progressDialog.hide()
-                    dialog.show(
+                    errorDialog.show(
                         context = requireContext(),
                         message = getString(R.string.error_internet)
                     )

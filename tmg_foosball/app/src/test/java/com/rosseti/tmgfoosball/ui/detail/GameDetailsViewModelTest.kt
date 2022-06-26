@@ -78,7 +78,7 @@ class GameDetailsViewModelTest {
         //to check the one value for testing
         Assert.assertNotNull(viewModel.playerDetail)
         Assert.assertEquals(
-            PlayerDetailsViewState.ShowContent(viewModel.playerDetail, game),
+            GameDetailsViewState.ShowContent(viewModel.playerDetail, game),
             viewModel.response.value
         )
     }
@@ -112,7 +112,7 @@ class GameDetailsViewModelTest {
         //then
         Assert.assertEquals(
             viewModel.response.value,
-            PlayerDetailsViewState.ShowNetworkError(error)
+            GameDetailsViewState.ShowNetworkError(error)
         )
     }
 
@@ -149,7 +149,7 @@ class GameDetailsViewModelTest {
         //to check the one value for testing
         Assert.assertNotNull(viewModel.playerDetail)
         Assert.assertEquals(
-            PlayerDetailsViewState.ShowContent(player, viewModel.gameDetail),
+            GameDetailsViewState.ShowContent(player, viewModel.gameDetail),
             viewModel.response.value
         )
     }
@@ -175,7 +175,7 @@ class GameDetailsViewModelTest {
         //then
         Assert.assertEquals(
             viewModel.response.value,
-            PlayerDetailsViewState.ShowNetworkError(error)
+            GameDetailsViewState.ShowNetworkError(error)
         )
     }
 
@@ -211,7 +211,7 @@ class GameDetailsViewModelTest {
         //to check the one value for testing
         Assert.assertNotNull(viewModel.playerDetail)
         Assert.assertEquals(
-            PlayerDetailsViewState.ShowContent(viewModel.playerDetail, game),
+            GameDetailsViewState.ShowContent(viewModel.playerDetail, game),
             viewModel.response.value
         )
     }
@@ -247,7 +247,7 @@ class GameDetailsViewModelTest {
         //then
         Assert.assertEquals(
             viewModel.response.value,
-            PlayerDetailsViewState.ShowNetworkError(error)
+            GameDetailsViewState.ShowNetworkError(error)
         )
     }
 }

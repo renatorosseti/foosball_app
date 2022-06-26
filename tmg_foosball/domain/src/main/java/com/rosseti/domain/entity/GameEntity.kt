@@ -6,12 +6,12 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class GameEntity(
     val id: String = "",
-    val _playerId: String = "",
-    val _adversaryId: String = "",
-    val _adversary: String = "",
-    val _playerName: String = "",
-    val _score: String = "",
-    val _scoreAdversary: String = "",
+    private val _playerId: String = "",
+    private val _adversaryId: String = "",
+    private val _adversary: String = "",
+    private val _playerName: String = "",
+    private val _score: String = "",
+    private val _scoreAdversary: String = "",
     val isPlayerAdversary: Boolean = false
 ) : Parcelable {
     val adversary

@@ -2,6 +2,7 @@
     <string name="app_name">TMG Foosball</string>
     <string name="foosball_scores">Foosball Scores</string>
     <string name="error_internet">Your app is offline, please try again.</string>
+    <string name="error_profile_empty">Please fill out the form.</string>
     <string name="progress_message">Loading</string>
     <string name="ok">ok</string>
     <string name="player_name">Player Name</string>
