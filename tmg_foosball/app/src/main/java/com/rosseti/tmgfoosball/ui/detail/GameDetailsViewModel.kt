@@ -3,7 +3,7 @@ package com.rosseti.tmgfoosball.ui.detail
 import androidx.lifecycle.MutableLiveData
 import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
-import com.rosseti.domain.extensions.updateGames
+import com.rosseti.domain.extension.updateGames
 import com.rosseti.domain.usecase.CreateGameUseCase
 import com.rosseti.domain.usecase.CreatePlayerUseCase
 import com.rosseti.domain.usecase.UpdateGameUseCase

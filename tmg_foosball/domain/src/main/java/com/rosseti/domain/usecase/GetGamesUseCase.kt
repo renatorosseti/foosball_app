@@ -2,7 +2,7 @@ package com.rosseti.domain.usecase
 
 import com.rosseti.domain.SchedulerProvider
 import com.rosseti.domain.entity.PlayerEntity
-import com.rosseti.domain.extensions.getAdversaries
+import com.rosseti.domain.extension.getAdversaries
 import com.rosseti.domain.repository.GameRepository
 import io.reactivex.Single
 

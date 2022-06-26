@@ -1,6 +1,8 @@
 package com.rosseti.tmgfoosball.ui.detail
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -14,6 +16,7 @@ import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
 import com.rosseti.tmgfoosball.databinding.FragmentGameDetailsBinding
+import com.rosseti.tmgfoosball.extension.setupInputError
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -74,6 +77,7 @@ class GameDetailsFragment : BaseFragment() {
     }
 
     private fun setupButton() {
+        setupListeners()
         binding.apply {
             saveButton.setOnClickListener {
                 val playerName = editPlayer.text.toString()
@@ -82,7 +86,7 @@ class GameDetailsFragment : BaseFragment() {
                 val adversaryName = spnAdversaryName.selectedItem.toString()
                 val adversaryId =
                     viewModel.playerDetail?.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
-                if (playerName.isNotEmpty() && playerScore.isNotEmpty() && adversaryScore.isNotEmpty()) {
+                if (validateFields()) {
                     viewModel.requestNewGame(
                         playerName = playerName,
                         adversaryName = adversaryName,
@@ -90,12 +94,12 @@ class GameDetailsFragment : BaseFragment() {
                         scoreAdversary = adversaryScore,
                         adversaryId = adversaryId
                     )
-                } else {
-                    errorDialog.show(requireContext(), getString(R.string.error_profile_empty))
                 }
             }
         }
     }
+
+    private fun validateFields() = validatePlayerName() && validateScore() && validateAdversaryScore()
 
     private fun setupEntities() {
         if (arguments != null) {
@@ -143,5 +147,41 @@ class GameDetailsFragment : BaseFragment() {
             viewModel.playerDetail
         )
         navController.popBackStack()
+    }
+
+    private fun validateScore() = (binding.editScore.text.toString() > "0").also { isValid ->
+        binding.inputLayoutScores.setupInputError(isValid,requireContext())
+    }
+
+    private fun validateAdversaryScore() = (binding.editAdvScores.text.toString() > "0").also { isValid ->
+        binding.inputLayoutAdvScores.setupInputError(isValid,requireContext())
+    }
+
+    private fun validatePlayerName() = binding.editPlayer.text.toString().isNotEmpty().also { isValid ->
+        binding.inputLayoutPlayer.setupInputError(isValid,requireContext())
+    }
+
+    private fun setupListeners() {
+        binding.editPlayer.addTextChangedListener(TextFieldValidation(binding.editPlayer))
+        binding.editScore.addTextChangedListener(TextFieldValidation(binding.editScore))
+        binding.editAdvScores.addTextChangedListener(TextFieldValidation(binding.editAdvScores))
+    }
+
+    inner class TextFieldValidation(private val view: View) : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            when (view) {
+                binding.editPlayer -> {
+                    validatePlayerName()
+                }
+                binding.editScore -> {
+                    validateScore()
+                }
+                binding.editAdvScores -> {
+                    validateAdversaryScore()
+                }
+            }
+        }
     }
 }

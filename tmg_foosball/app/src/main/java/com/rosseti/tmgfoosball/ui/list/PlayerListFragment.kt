@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.rosseti.domain.entity.PlayerEntity
-import com.rosseti.domain.extensions.getAdversaries
+import com.rosseti.domain.extension.getAdversaries
 import com.rosseti.tmgfoosball.R
 import com.rosseti.tmgfoosball.base.BaseFragment
 import com.rosseti.tmgfoosball.databinding.FragmentPlayerListBinding

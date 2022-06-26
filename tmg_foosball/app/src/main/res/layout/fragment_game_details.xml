@@ -32,13 +32,14 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_scores"
+                    android:id="@+id/input_layout_player"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_16dp"
                     android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:hint="@string/player_name">
+                    android:hint="@string/player_name"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_player"
@@ -50,14 +51,15 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_layout_matches"
+                    android:id="@+id/input_layout_scores"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_16dp"
                     android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginEnd="@dimen/dimen_16dp"
                     android:background="@color/white"
-                    android:hint="@string/score">
+                    android:hint="@string/score"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_score"
@@ -79,12 +81,12 @@
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spn_adversary_name"
-                    android:background="?attr/colorOnPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_48dp"
-                    android:paddingStart="@dimen/dimen_8dp"
                     android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginEnd="@dimen/dimen_16dp" />
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:background="?attr/colorOnPrimary"
+                    android:paddingStart="@dimen/dimen_8dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_adv_scores"
@@ -93,7 +95,8 @@
                     android:layout_marginStart="@dimen/dimen_16dp"
                     android:layout_marginTop="@dimen/dimen_8dp"
                     android:layout_marginEnd="@dimen/dimen_16dp"
-                    android:hint="@string/adversary_score">
+                    android:hint="@string/adversary_score"
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_adv_scores"

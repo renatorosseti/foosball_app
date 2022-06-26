@@ -1,4 +1,4 @@
-package com.rosseti.domain.extensions
+package com.rosseti.domain.extension
 
 import com.rosseti.domain.entity.GameEntity
 import com.rosseti.domain.entity.PlayerEntity
