@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rosseti.domain.entity.PlayerEntity
 import com.rosseti.tmgfoosball.R
-import com.rosseti.tmgfoosball.databinding.ItemGamerBinding
+import com.rosseti.tmgfoosball.databinding.ItemPlayerBinding
 
 class PlayerViewAdapter(
     private val onItemClicked: (PlayerEntity) -> Unit
@@ -16,8 +16,8 @@ class PlayerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: ItemGamerBinding =
-            DataBindingUtil.inflate(inflater, R.layout.item_gamer, parent, false)
+        val binding: ItemPlayerBinding =
+            DataBindingUtil.inflate(inflater, R.layout.item_player, parent, false)
         return ViewHolder(binding)
     }
 
@@ -28,7 +28,7 @@ class PlayerViewAdapter(
         }
     }
 
-    inner class ViewHolder(val binding: ItemGamerBinding) :
+    inner class ViewHolder(private val binding: ItemPlayerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(playerEntity: PlayerEntity) {
             binding.apply {

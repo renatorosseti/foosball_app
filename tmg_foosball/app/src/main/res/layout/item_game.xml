@@ -8,6 +8,8 @@
         <variable
             name="item"
             type="com.rosseti.domain.entity.GameEntity" />
+
+        <import type="com.rosseti.domain.entity.GameResult" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,9 +52,9 @@
             android:layout_width="@dimen/dimen_20dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_16dp"
-            android:background="@{item.isWinner ? @android:color/holo_green_light : @android:color/holo_red_light}"
+            android:background="@{item.resultType == GameResult.WIN ? @android:color/holo_green_light : (item.resultType == GameResult.LOSE ? @android:color/holo_red_light : @color/gray_200)}"
             android:gravity="center"
-            android:text="@{item.isWinner ? @string/plus : @string/minus}"
+            android:text="@{item.resultType == GameResult.WIN ? @string/plus : (item.resultType == GameResult.LOSE ? @string/minus : @string/draw) }"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_16sp"
             android:textStyle="bold"

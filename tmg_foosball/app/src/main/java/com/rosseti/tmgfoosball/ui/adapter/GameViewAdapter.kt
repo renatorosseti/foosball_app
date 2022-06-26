@@ -28,7 +28,7 @@ class GameViewAdapter(
         }
     }
 
-    inner class ViewHolder(val binding: ItemGameBinding) :
+    inner class ViewHolder(private val binding: ItemGameBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(scoreEntity: GameEntity) {
             binding.apply {
