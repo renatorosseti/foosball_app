@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -81,12 +82,13 @@ class PlayerListFragment : BaseFragment() {
                     progressDialog.show(requireContext())
                 }
                 is PlayerListViewState.ShowContentFeed -> {
-                    adapter.submitData(lifecycle, PagingData.from(it.players))
-                    adapter.addLoadStateListener { loadState ->
-                        if (loadState.source.append == LoadState.NotLoading(endOfPaginationReached = true)) {
-                            progressDialog.hide()
-                        }
+                    val isPlayersEmpty = it.players.isEmpty()
+                    binding.apply {
+                        emptyView.isVisible = isPlayersEmpty
+                        list.isVisible = !isPlayersEmpty
                     }
+                    adapter.submitData(lifecycle, PagingData.from(it.players))
+                    progressDialog.hide()
                 }
                 is PlayerListViewState.ShowNetworkError -> {
                     progressDialog.hide()

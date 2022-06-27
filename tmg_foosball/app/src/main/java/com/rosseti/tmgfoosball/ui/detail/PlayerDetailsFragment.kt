@@ -61,6 +61,7 @@ class PlayerDetailsFragment : BaseFragment() {
 
     private fun setupUiButtons(playerEntity: PlayerEntity) {
         binding.apply {
+            if (playerEntity.adversaries.isEmpty()) newGameButton.isEnabled = false
             newGameButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_gamerDetailsFragment_to_gameDetailsFragment,

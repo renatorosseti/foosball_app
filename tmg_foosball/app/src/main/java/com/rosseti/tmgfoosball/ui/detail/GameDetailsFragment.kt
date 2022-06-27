@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -59,8 +60,13 @@ class GameDetailsFragment : BaseFragment() {
     }
 
     private fun setupUi() {
-        val adversaryNames = viewModel.playerDetail.adversaries.toList().map { it.second }
+        setupSpinnerAdversaries()
+        setupInputFields()
+        setupButton()
+    }
 
+    private fun setupSpinnerAdversaries() {
+        val adversaryNames = viewModel.playerDetail.adversaries.toList().map { it.second }
         val arrayAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -72,8 +78,17 @@ class GameDetailsFragment : BaseFragment() {
         val playerAdversary = game.adversary
         val position = arrayAdapter.getPosition(playerAdversary)
         spinnerAdversary.setSelection(position)
-        setupButton()
+    }
 
+    private fun setupInputFields() {
+        if (!viewModel.hasAdversaries()) {
+            binding.apply {
+                editScore.isVisible = false
+                txtAdversary.isVisible = false
+                spnAdversaryName.isVisible = false
+                editAdvScores.isVisible = false
+            }
+        }
     }
 
     private fun setupButton() {
@@ -83,9 +98,13 @@ class GameDetailsFragment : BaseFragment() {
                 val playerName = editPlayer.text.toString()
                 val playerScore = editScore.text.toString()
                 val adversaryScore = editAdvScores.text.toString()
-                val adversaryName = spnAdversaryName.selectedItem.toString()
-                val adversaryId =
-                    viewModel.playerDetail?.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
+                val adversaryName = spnAdversaryName.selectedItem?.toString() ?: ""
+                var adversaryId = ""
+                if (adversaryName.isNotEmpty()) {
+                    adversaryId =
+                        viewModel.playerDetail?.adversaries.filter { it.value == spnAdversaryName.selectedItem }.keys.first()
+                }
+
                 if (validateFields()) {
                     viewModel.requestNewGame(
                         playerName = playerName,
@@ -98,8 +117,6 @@ class GameDetailsFragment : BaseFragment() {
             }
         }
     }
-
-    private fun validateFields() = validatePlayerName() && validateScore() && validateAdversaryScore()
 
     private fun setupEntities() {
         if (arguments != null) {
@@ -149,17 +166,22 @@ class GameDetailsFragment : BaseFragment() {
         navController.popBackStack()
     }
 
-    private fun validateScore() = (binding.editScore.text.toString() > "0").also { isValid ->
-        binding.inputLayoutScores.setupInputError(isValid,requireContext())
+    private fun validateFields() =
+        validatePlayerName() && (viewModel.hasAdversaries() && validateScore() && validateAdversaryScore() || !viewModel.hasAdversaries())
+
+    private fun validateScore() = (binding.editScore.text.toString().isNotEmpty()).also { isValid ->
+        binding.inputLayoutScores.setupInputError(isValid, requireContext())
     }
 
-    private fun validateAdversaryScore() = (binding.editAdvScores.text.toString() > "0").also { isValid ->
-        binding.inputLayoutAdvScores.setupInputError(isValid,requireContext())
-    }
+    private fun validateAdversaryScore() =
+        (binding.editAdvScores.text.toString().isNotEmpty()).also { isValid ->
+            binding.inputLayoutAdvScores.setupInputError(isValid, requireContext())
+        }
 
-    private fun validatePlayerName() = binding.editPlayer.text.toString().isNotEmpty().also { isValid ->
-        binding.inputLayoutPlayer.setupInputError(isValid,requireContext())
-    }
+    private fun validatePlayerName() =
+        binding.editPlayer.text.toString().isNotEmpty().also { isValid ->
+            binding.inputLayoutPlayer.setupInputError(isValid, requireContext())
+        }
 
     private fun setupListeners() {
         binding.editPlayer.addTextChangedListener(TextFieldValidation(binding.editPlayer))
@@ -172,15 +194,10 @@ class GameDetailsFragment : BaseFragment() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             when (view) {
-                binding.editPlayer -> {
-                    validatePlayerName()
-                }
-                binding.editScore -> {
-                    validateScore()
-                }
-                binding.editAdvScores -> {
-                    validateAdversaryScore()
-                }
+                binding.editPlayer -> validatePlayerName()
+                binding.editScore -> validateScore()
+                binding.editAdvScores -> validateAdversaryScore()
+
             }
         }
     }

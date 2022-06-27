@@ -126,4 +126,6 @@ class GameDetailsViewModel @Inject constructor(
                 response.postValue(GameDetailsViewState.ShowNetworkError(e))
             }).addTo(compositeDisposable)
     }
+
+    fun hasAdversaries() = playerDetail.adversaries.isNotEmpty()
 }
