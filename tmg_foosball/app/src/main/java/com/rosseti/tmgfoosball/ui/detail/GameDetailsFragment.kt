@@ -179,7 +179,7 @@ class GameDetailsFragment : BaseFragment() {
         }
 
     private fun validatePlayerName() =
-        binding.editPlayer.text.toString().isNotEmpty().also { isValid ->
+        binding.editPlayer.text.toString().isNotBlank().also { isValid ->
             binding.inputLayoutPlayer.setupInputError(isValid, requireContext())
         }
 

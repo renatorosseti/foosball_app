@@ -37,7 +37,7 @@ class PlayerDetailsFragment : BaseFragment() {
         setHasOptionsMenu(true)
         val playerEntity = setupPlayerEntity()
         setupAdapter(playerEntity)
-        setupUiButtons(playerEntity)
+        setupUiButton(playerEntity)
         observeNavigationCallBack()
     }
 
@@ -59,7 +59,7 @@ class PlayerDetailsFragment : BaseFragment() {
         return playerEntity
     }
 
-    private fun setupUiButtons(playerEntity: PlayerEntity) {
+    private fun setupUiButton(playerEntity: PlayerEntity) {
         binding.apply {
             if (playerEntity.adversaries.isEmpty()) newGameButton.isEnabled = false
             newGameButton.setOnClickListener {
@@ -85,7 +85,8 @@ class PlayerDetailsFragment : BaseFragment() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<PlayerEntity>(PLAYER_BUNDLE)
             ?.observe(viewLifecycleOwner) {
                 adapter.submitData(lifecycle, PagingData.from(it.games))
-                binding.playerName.text = it.name ?: ""
+                binding.playerName.text = it.name
+                setupUiButton(it)
             }
     }
 }
